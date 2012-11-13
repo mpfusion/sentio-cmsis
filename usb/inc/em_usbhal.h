@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, low level USB peripheral access.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #ifndef __EM_USBHAL_H
 #define __EM_USBHAL_H
 
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE ) || defined( USB_HOST )

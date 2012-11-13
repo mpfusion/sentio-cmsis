@@ -2,7 +2,7 @@
  * @file
  * @brief efm32g_cmu Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -662,7 +662,7 @@ typedef struct
 
 /* Bit fields for CMU HFPERCLKEN0 */
 #define _CMU_HFPERCLKEN0_RESETVALUE                0x00000000UL                           /**< Default value for CMU_HFPERCLKEN0 */
-#define _CMU_HFPERCLKEN0_MASK                      0x0000FFFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
+#define _CMU_HFPERCLKEN0_MASK                      0x0000FDFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
 #define CMU_HFPERCLKEN0_USART0                     (0x1UL << 0)                           /**< Universal Synchronous/Asynchronous Receiver/Transmitter 0 Clock Enable */
 #define _CMU_HFPERCLKEN0_USART0_SHIFT              0                                      /**< Shift value for CMU_USART0 */
 #define _CMU_HFPERCLKEN0_USART0_MASK               0x1UL                                  /**< Bit mask for CMU_USART0 */

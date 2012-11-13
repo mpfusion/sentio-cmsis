@@ -2,7 +2,7 @@
  * @file
  * @brief Interrupt enable/disable unit API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -29,7 +29,7 @@
  * special damages, or any other relief, or for any claim by any third party,
  * arising from your use of this Software.
  *
- *****************************************************************************/
+ ******************************************************************************/
 #include <stdint.h>
 #include "em_int.h"
 

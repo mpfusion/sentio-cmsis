@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, low level USB peripheral access.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE ) || defined( USB_HOST )
@@ -165,6 +165,9 @@ void USB_Puts( const char *p )
 
 void USBHAL_CoreReset( void )
 {
+  USB->PCGCCTL &= ~USB_PCGCCTL_STOPPCLK;
+  USB->PCGCCTL &= ~(USB_PCGCCTL_PWRCLMP | USB_PCGCCTL_RSTPDWNMODULE);
+
   /* Wait for AHB master IDLE state. */
   while ( !( USB->GRSTCTL & USB_GRSTCTL_AHBIDLE ) ) {}
 

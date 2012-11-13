@@ -2,7 +2,7 @@
  * @file
  * @brief efm32lg_i2c Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -420,7 +420,7 @@ typedef struct
 
 /* Bit fields for I2C IFS */
 #define _I2C_IFS_RESETVALUE               0x00000000UL                     /**< Default value for I2C_IFS */
-#define _I2C_IFS_MASK                     0x0001FFFFUL                     /**< Mask for I2C_IFS */
+#define _I2C_IFS_MASK                     0x0001FFCFUL                     /**< Mask for I2C_IFS */
 #define I2C_IFS_START                     (0x1UL << 0)                     /**< Set START Interrupt Flag */
 #define _I2C_IFS_START_SHIFT              0                                /**< Shift value for I2C_START */
 #define _I2C_IFS_START_MASK               0x1UL                            /**< Bit mask for I2C_START */
@@ -499,7 +499,7 @@ typedef struct
 
 /* Bit fields for I2C IFC */
 #define _I2C_IFC_RESETVALUE               0x00000000UL                     /**< Default value for I2C_IFC */
-#define _I2C_IFC_MASK                     0x0001FFFFUL                     /**< Mask for I2C_IFC */
+#define _I2C_IFC_MASK                     0x0001FFCFUL                     /**< Mask for I2C_IFC */
 #define I2C_IFC_START                     (0x1UL << 0)                     /**< Clear START Interrupt Flag */
 #define _I2C_IFC_START_SHIFT              0                                /**< Shift value for I2C_START */
 #define _I2C_IFC_START_MASK               0x1UL                            /**< Bit mask for I2C_START */

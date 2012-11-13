@@ -2,7 +2,7 @@
  * @file
  * @brief efm32lg_lesense Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -251,7 +251,7 @@ typedef struct
 
 /* Bit fields for LESENSE PERCTRL */
 #define _LESENSE_PERCTRL_RESETVALUE                    0x00000000UL                                        /**< Default value for LESENSE_PERCTRL */
-#define _LESENSE_PERCTRL_MASK                          0x0CF4FFFFUL                                        /**< Mask for LESENSE_PERCTRL */
+#define _LESENSE_PERCTRL_MASK                          0x0CF47FFFUL                                        /**< Mask for LESENSE_PERCTRL */
 #define LESENSE_PERCTRL_DACCH0DATA                     (0x1UL << 0)                                        /**< DAC CH0 data selection. */
 #define _LESENSE_PERCTRL_DACCH0DATA_SHIFT              0                                                   /**< Shift value for LESENSE_DACCH0DATA */
 #define _LESENSE_PERCTRL_DACCH0DATA_MASK               0x1UL                                               /**< Bit mask for LESENSE_DACCH0DATA */
@@ -531,7 +531,7 @@ typedef struct
 
 /* Bit fields for LESENSE BIASCTRL */
 #define _LESENSE_BIASCTRL_RESETVALUE                   0x00000000UL                                /**< Default value for LESENSE_BIASCTRL */
-#define _LESENSE_BIASCTRL_MASK                         0x0000001FUL                                /**< Mask for LESENSE_BIASCTRL */
+#define _LESENSE_BIASCTRL_MASK                         0x00000003UL                                /**< Mask for LESENSE_BIASCTRL */
 #define _LESENSE_BIASCTRL_BIASMODE_SHIFT               0                                           /**< Shift value for LESENSE_BIASMODE */
 #define _LESENSE_BIASCTRL_BIASMODE_MASK                0x3UL                                       /**< Bit mask for LESENSE_BIASMODE */
 #define _LESENSE_BIASCTRL_BIASMODE_DEFAULT             0x00000000UL                                /**< Mode DEFAULT for LESENSE_BIASCTRL */

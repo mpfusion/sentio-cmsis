@@ -2,7 +2,7 @@
  * @file
  * @brief Interrupt enable/disable unit API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -33,7 +33,7 @@
 #ifndef __EM_INT_H
 #define __EM_INT_H
 
-#include "em_part.h"
+#include "em_device.h"
 
 extern uint32_t INT_LockCnt;
 

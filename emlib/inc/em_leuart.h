@@ -3,7 +3,7 @@
  * @brief Low Energy Universal Asynchronous Receiver/Transmitter (LEUART)
  *   peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #define __EM_LEUART_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, internal type definitions.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #ifndef __EM_USBTYPES_H
 #define __EM_USBTYPES_H
 
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE ) || defined( USB_HOST )
@@ -117,6 +117,12 @@ extern "C" {
   #endif
   #define HOSTCH_TIMER_INDEX      (HOSTPORT_TIMER_INDEX + 1 )
 #endif
+
+/* Macros for selecting a hardware timer. */
+#define USB_TIMER0 0
+#define USB_TIMER1 1
+#define USB_TIMER2 2
+#define USB_TIMER3 3
 
 #if defined( USB_HOST )
 #define HCS_NAK       0x01

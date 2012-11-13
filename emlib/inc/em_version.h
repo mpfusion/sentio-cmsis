@@ -2,7 +2,7 @@
  * @file
  * @brief Assign correct part number for include file
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -33,7 +33,7 @@
 #ifndef __EM_VERSION_H
 #define __EM_VERSION_H
 
-#include "em_part.h"
+#include "em_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,13 +50,13 @@ extern "C" {
  ******************************************************************************/
 
 /** Version number of emlib peripheral API */
-#define _EMLIB_VERSION 3.0.1
+#define _EMLIB_VERSION 3.0.2
 /** Major version of emlib */
 #define _EMLIB_VERSION_MAJOR 3
 /** Minor version of emlib */
 #define _EMLIB_VERSION_MINOR 0
 /** Patch revision of emlib */
-#define _EMLIB_VERSION_PATCH 1
+#define _EMLIB_VERSION_PATCH 2
 
 /** @} (end addtogroup Version) */
 /** @} (end addtogroup EM_Library) */

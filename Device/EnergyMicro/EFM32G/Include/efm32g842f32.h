@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M3 Peripheral Access Layer Header File
  *        for EFM EFM32G842F32
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -112,6 +112,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GECKO_FAMILY    1 /**< Gecko EFM32G MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32G842F32)
@@ -1073,7 +1074,7 @@ typedef struct
 
 /* Bit fields for CMU HFCORECLKEN0 */
 #define _CMU_HFCORECLKEN0_RESETVALUE               0x00000000UL                         /**< Default value for CMU_HFCORECLKEN0 */
-#define _CMU_HFCORECLKEN0_MASK                     0x0000000FUL                         /**< Mask for CMU_HFCORECLKEN0 */
+#define _CMU_HFCORECLKEN0_MASK                     0x00000007UL                         /**< Mask for CMU_HFCORECLKEN0 */
 #define CMU_HFCORECLKEN0_AES                       (0x1UL << 0)                         /**< Advanced Encryption Standard Accelerator Clock Enable */
 #define _CMU_HFCORECLKEN0_AES_SHIFT                0                                    /**< Shift value for CMU_AES */
 #define _CMU_HFCORECLKEN0_AES_MASK                 0x1UL                                /**< Bit mask for CMU_AES */
@@ -1092,7 +1093,7 @@ typedef struct
 
 /* Bit fields for CMU HFPERCLKEN0 */
 #define _CMU_HFPERCLKEN0_RESETVALUE                0x00000000UL                           /**< Default value for CMU_HFPERCLKEN0 */
-#define _CMU_HFPERCLKEN0_MASK                      0x0000FFFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
+#define _CMU_HFPERCLKEN0_MASK                      0x0000FDF7UL                           /**< Mask for CMU_HFPERCLKEN0 */
 #define CMU_HFPERCLKEN0_USART0                     (0x1UL << 0)                           /**< Universal Synchronous/Asynchronous Receiver/Transmitter 0 Clock Enable */
 #define _CMU_HFPERCLKEN0_USART0_SHIFT              0                                      /**< Shift value for CMU_USART0 */
 #define _CMU_HFPERCLKEN0_USART0_MASK               0x1UL                                  /**< Bit mask for CMU_USART0 */
@@ -1710,7 +1711,7 @@ typedef struct
 
 /* Bit fields for DMA STATUS */
 #define _DMA_STATUS_RESETVALUE                          0x10070000UL                          /**< Default value for DMA_STATUS */
-#define _DMA_STATUS_MASK                                0xF01F00F1UL                          /**< Mask for DMA_STATUS */
+#define _DMA_STATUS_MASK                                0x001F00F1UL                          /**< Mask for DMA_STATUS */
 #define DMA_STATUS_EN                                   (0x1UL << 0)                          /**< DMA Enable Status */
 #define _DMA_STATUS_EN_SHIFT                            0                                     /**< Shift value for DMA_EN */
 #define _DMA_STATUS_EN_MASK                             0x1UL                                 /**< Bit mask for DMA_EN */
@@ -2719,7 +2720,7 @@ typedef struct
 
 
 /**************************************************************************//**
- * @defgroup EFM32G842F32_UNLOCK Unlock Codes
+ * @defgroup EFM32G842F32_UNLOCK EFM32G842F32 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, USB device peripheral interrupt handlers.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE )
@@ -60,7 +60,7 @@ static void Handle_USB_GINTSTS_WKUPINT   ( void );
 
 #if ( USB_PWRSAVE_MODE )
 /* Variables and prototypes for USB powerdown (suspend) functionality. */
-volatile bool USBD_PoweredDown = false;
+volatile bool USBD_poweredDown = false;
 static bool UsbPowerDown( void );
 static bool UsbPowerUp(   void );
 
@@ -104,7 +104,7 @@ void USB_IRQHandler( void )
   INT_Disable();
 
 #if ( USB_PWRSAVE_MODE )
-  if ( USBD_PoweredDown )
+  if ( USBD_poweredDown )
   {
     /* Switch USBC clock from 32kHz to HFCLK to be able to read USB */
     /* peripheral registers.                                        */
@@ -551,9 +551,9 @@ static bool UsbPowerDown( void )
   int i, epNum;
   USBD_Ep_TypeDef *ep;
 
-  if ( !USBD_PoweredDown )
+  if ( !USBD_poweredDown )
   {
-    USBD_PoweredDown = true;
+    USBD_poweredDown = true;
 
     /* Backup USB core registers. */
     x_USB_GINTMSK   = USB->GINTMSK;
@@ -633,9 +633,9 @@ static bool UsbPowerUp( void )
   uint32_t tmp;
   USBD_Ep_TypeDef *ep;
 
-  if ( USBD_PoweredDown )
+  if ( USBD_poweredDown )
   {
-    USBD_PoweredDown = false;
+    USBD_poweredDown = false;
 
     /* Switch CPU core clock to 48MHz */
     CMU_ClockSelectSet( cmuClock_HF, cmuSelect_HFXO );

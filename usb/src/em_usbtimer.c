@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, timer API.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE ) || defined( USB_HOST )
@@ -57,10 +57,37 @@
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 
-#define TIMER             TIMER0
-#define TIMER_CLK         cmuClock_TIMER0
-#define TIMER_IRQ         TIMER0_IRQn
-#define TIMER_IRQHandler  TIMER0_IRQHandler
+#ifndef USB_TIMER
+#define USB_TIMER USB_TIMER0
+#endif
+
+#if ( USB_TIMER == USB_TIMER0 ) && ( TIMER_COUNT >= 1 )
+  #define TIMER             TIMER0
+  #define TIMER_CLK         cmuClock_TIMER0
+  #define TIMER_IRQ         TIMER0_IRQn
+  #define TIMER_IRQHandler  TIMER0_IRQHandler
+
+#elif ( USB_TIMER == USB_TIMER1 ) && ( TIMER_COUNT >= 2 )
+  #define TIMER             TIMER1
+  #define TIMER_CLK         cmuClock_TIMER1
+  #define TIMER_IRQ         TIMER1_IRQn
+  #define TIMER_IRQHandler  TIMER1_IRQHandler
+
+#elif ( USB_TIMER == USB_TIMER2 ) && ( TIMER_COUNT >= 3 )
+  #define TIMER             TIMER2
+  #define TIMER_CLK         cmuClock_TIMER2
+  #define TIMER_IRQ         TIMER2_IRQn
+  #define TIMER_IRQHandler  TIMER2_IRQHandler
+
+#elif ( USB_TIMER == USB_TIMER3 ) && ( TIMER_COUNT == 4 )
+  #define TIMER             TIMER3
+  #define TIMER_CLK         cmuClock_TIMER3
+  #define TIMER_IRQ         TIMER3_IRQn
+  #define TIMER_IRQHandler  TIMER3_IRQHandler
+
+#else
+#error "Illegal USB TIMER definition"
+#endif
 
 typedef struct _timer
 {

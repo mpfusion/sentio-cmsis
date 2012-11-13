@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M3 Peripheral Access Layer Header File
  *        for EFM EFM32G290F32
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -113,6 +113,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GECKO_FAMILY    1 /**< Gecko EFM32G MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32G290F32)
@@ -990,7 +991,7 @@ typedef struct
 
 /* Bit fields for CMU HFPERCLKEN0 */
 #define _CMU_HFPERCLKEN0_RESETVALUE                0x00000000UL                           /**< Default value for CMU_HFPERCLKEN0 */
-#define _CMU_HFPERCLKEN0_MASK                      0x0000FFFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
+#define _CMU_HFPERCLKEN0_MASK                      0x0000FDFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
 #define CMU_HFPERCLKEN0_USART0                     (0x1UL << 0)                           /**< Universal Synchronous/Asynchronous Receiver/Transmitter 0 Clock Enable */
 #define _CMU_HFPERCLKEN0_USART0_SHIFT              0                                      /**< Shift value for CMU_USART0 */
 #define _CMU_HFPERCLKEN0_USART0_MASK               0x1UL                                  /**< Bit mask for CMU_USART0 */
@@ -1106,7 +1107,7 @@ typedef struct
 
 /* Bit fields for CMU LFACLKEN0 */
 #define _CMU_LFACLKEN0_RESETVALUE                  0x00000000UL                           /**< Default value for CMU_LFACLKEN0 */
-#define _CMU_LFACLKEN0_MASK                        0x00000007UL                           /**< Mask for CMU_LFACLKEN0 */
+#define _CMU_LFACLKEN0_MASK                        0x00000003UL                           /**< Mask for CMU_LFACLKEN0 */
 #define CMU_LFACLKEN0_RTC                          (0x1UL << 0)                           /**< Real-Time Counter Clock Enable */
 #define _CMU_LFACLKEN0_RTC_SHIFT                   0                                      /**< Shift value for CMU_RTC */
 #define _CMU_LFACLKEN0_RTC_MASK                    0x1UL                                  /**< Bit mask for CMU_RTC */
@@ -1134,7 +1135,7 @@ typedef struct
 
 /* Bit fields for CMU LFAPRESC0 */
 #define _CMU_LFAPRESC0_RESETVALUE                  0x00000000UL                            /**< Default value for CMU_LFAPRESC0 */
-#define _CMU_LFAPRESC0_MASK                        0x000003FFUL                            /**< Mask for CMU_LFAPRESC0 */
+#define _CMU_LFAPRESC0_MASK                        0x000000FFUL                            /**< Mask for CMU_LFAPRESC0 */
 #define _CMU_LFAPRESC0_RTC_SHIFT                   0                                       /**< Shift value for CMU_RTC */
 #define _CMU_LFAPRESC0_RTC_MASK                    0xFUL                                   /**< Bit mask for CMU_RTC */
 #define _CMU_LFAPRESC0_RTC_DIV1                    0x00000000UL                            /**< Mode DIV1 for CMU_LFAPRESC0 */
@@ -1318,7 +1319,7 @@ typedef struct
 
 
 /**************************************************************************//**
- * @defgroup EFM32G290F32_UNLOCK Unlock Codes
+ * @defgroup EFM32G290F32_UNLOCK EFM32G290F32 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

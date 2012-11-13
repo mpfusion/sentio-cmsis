@@ -2,7 +2,7 @@
  * @file
  * @brief Clock management unit (CMU) Peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -30,7 +30,7 @@
  * arising from your use of this Software.
  *
  ******************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #include "em_cmu.h"
 #include "em_assert.h"
 #include "em_bitband.h"
@@ -779,6 +779,30 @@ void CMU_ClockDivSet(CMU_Clock_TypeDef clock, CMU_ClkDiv_TypeDef div)
     /* Configure worst case wait states for flash access before setting divisor */
     CMU_FlashWaitStateMax();
 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
+    /* Clear HFLE and set DIV2 factor for peripheral clock
+       when running at frequencies lower than 32 MHz. */
+    if ( (cmuSelect_HFXO != CMU_ClockSelectGet(cmuClock_HF)) ||
+         ((SystemHFXOClockGet()/div) <= CMU_MAX_FREQ_HFLE) )
+    {
+      /* Clear CMU HFLE */
+      BITBAND_Peripheral(&(CMU->CTRL), _CMU_CTRL_HFLE_SHIFT, 0);
+      
+      /* Set DIV2 factor for peripheral clock */
+      BITBAND_Peripheral(&(CMU->HFCORECLKDIV),
+                         _CMU_HFCORECLKDIV_HFCORECLKLEDIV_SHIFT, 0);
+    }
+    else
+    {
+      /* Set CMU HFLE */
+      BITBAND_Peripheral(&(CMU->CTRL), _CMU_CTRL_HFLE_SHIFT, 1);
+      
+      /* Set DIV4 factor for peripheral clock */
+      BITBAND_Peripheral(&(CMU->HFCORECLKDIV),
+                         _CMU_HFCORECLKDIV_HFCORECLKLEDIV_SHIFT, 1);
+    }
+#endif
+
     /* Convert to correct scale */
     div = CMU_DivToLog2(div);
 
@@ -952,6 +976,22 @@ void CMU_ClockEnable(CMU_Clock_TypeDef clock, bool enable)
 
   case CMU_HFCORECLKEN0_EN_REG:
     reg = &(CMU->HFCORECLKEN0);
+
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
+    /* Set HFLE and DIV4 factor for peripheral clock
+       when running at frequencies higher than 32 MHz. */
+    if ( (cmuSelect_HFXO == CMU_ClockSelectGet(cmuClock_HF)) &&
+         ((SystemHFXOClockGet()/CMU_ClockDivGet(cmuClock_CORE)) >
+          CMU_MAX_FREQ_HFLE) )
+    {
+      /* Enable CMU HFLE */
+      BITBAND_Peripheral(&(CMU->CTRL), _CMU_CTRL_HFLE_SHIFT, 1);
+
+      /* Set DIV4 factor for peripheral clock */
+      BITBAND_Peripheral(&(CMU->HFCORECLKDIV),
+                         _CMU_HFCORECLKDIV_HFCORECLKLEDIV_SHIFT, 1);
+    }
+#endif
     break;
 
   case CMU_LFACLKEN0_EN_REG:
@@ -1375,14 +1415,22 @@ void CMU_ClockSelectSet(CMU_Clock_TypeDef clock, CMU_Select_TypeDef ref)
       /* frequencies above 32MHz */
       if(SystemHFXOClockGet() > CMU_MAX_FREQ_HFLE)
       {
-        CMU->CTRL = (CMU->CTRL & ~_CMU_CTRL_HFXOBUFCUR_MASK) | 
-          CMU_CTRL_HFXOBUFCUR_BOOSTABOVE32MHZ | 
+        CMU->CTRL = (CMU->CTRL & ~_CMU_CTRL_HFXOBUFCUR_MASK) |
+          CMU_CTRL_HFXOBUFCUR_BOOSTABOVE32MHZ |
           /* Must have HFLE enabled to access some LE peripherals >=32MHz */
           CMU_CTRL_HFLE;
+
+        /* Set HFLE and DIV4 factor for peripheral clock if HFCORE clock for
+           LE is enabled. */
+        if (CMU->HFCORECLKEN0 & CMU_HFCORECLKEN0_LE)
+        {
+          BITBAND_Peripheral(&(CMU->HFCORECLKDIV),
+                             _CMU_HFCORECLKDIV_HFCORECLKLEDIV_SHIFT, 1);
+        }
       } else {
         /* This can happen if the user configures the EFM32_HFXO_FREQ to */
         /* use another oscillator frequency */
-        CMU->CTRL = (CMU->CTRL & ~_CMU_CTRL_HFXOBUFCUR_MASK) | 
+        CMU->CTRL = (CMU->CTRL & ~_CMU_CTRL_HFXOBUFCUR_MASK) |
           CMU_CTRL_HFXOBUFCUR_BOOSTUPTO32MHZ;
       }
 #endif
@@ -1459,13 +1507,13 @@ void CMU_ClockSelectSet(CMU_Clock_TypeDef clock, CMU_Select_TypeDef ref)
         BITBAND_Peripheral(&(CMU->CTRL), _CMU_CTRL_HFLE_SHIFT, 1);
 
         /* Enable DIV4 factor for peripheral clock */
-        BITBAND_Peripheral(&(CMU->HFCORECLKDIV), 
+        BITBAND_Peripheral(&(CMU->HFCORECLKDIV),
                            _CMU_HFCORECLKDIV_HFCORECLKLEDIV_SHIFT, 1);
       }
 #endif
       break;
 
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
     case cmuSelect_ULFRCO:
       /* ULFRCO is always enabled */
       tmp        = _CMU_LFCLKSEL_LFA_DISABLED;
@@ -1890,6 +1938,13 @@ void CMU_LCDClkFDIVSet(uint32_t div)
 /***************************************************************************//**
  * @brief
  *   Enable/disable oscillator.
+ *
+ * @note
+ *   WARNING: When this function is called to disable either cmuOsc_LFXO or
+ *   cmuOsc_HFXO the LFXOMODE or HFXOMODE fields of the CMU_CTRL register
+ *   are reset to the reset value. I.e. if external clock sources are selected
+ *   in either LFXOMODE or HFXOMODE fields, the configuration will be cleared
+ *   and needs to be reconfigured if needed later.
  *
  * @param[in] osc
  *   The oscillator to enable/disable.

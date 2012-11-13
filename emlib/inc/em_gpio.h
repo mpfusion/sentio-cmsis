@@ -2,7 +2,7 @@
  * @file
  * @brief General Purpose IO (GPIO) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -34,7 +34,7 @@
 #define __EM_GPIO_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 #include "em_bitband.h"
 #include "em_assert.h"
 
@@ -118,12 +118,40 @@ typedef enum
   gpioModeWiredAndDrivePullUpFilter = _GPIO_P_MODEL_MODE0_WIREDANDDRIVEPULLUPFILTER
 } GPIO_Mode_TypeDef;
 
+
+/*******************************************************************************
+ *******************************   DEFINES   ***********************************
+ ******************************************************************************/
+
+/** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
+
+/** Validation of pin typically usable in assert statements. */
+#define GPIO_PIN_VALID(pin)           ((pin) < 16)
+
+/** Validation of port typically usable in assert statements. */
+#define GPIO_PORT_VALID(port)         ((port) <= gpioPortF)
+
+/** @endcond */
+
+
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
 
 void GPIO_DbgLocationSet(unsigned int location);
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+
+void GPIO_IntConfig(GPIO_Port_TypeDef port,
+                    unsigned int pin,
+                    bool risingEdge,
+                    bool fallingEdge,
+                    bool enable);
+
+void GPIO_PinModeSet(GPIO_Port_TypeDef port,
+                     unsigned int pin,
+                     GPIO_Mode_TypeDef mode,
+                     unsigned int out);
+
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 __STATIC_INLINE void GPIO_EM4SetPinRetention(bool enable);
 #endif
 
@@ -185,7 +213,7 @@ __STATIC_INLINE void GPIO_DbgSWOEnable(bool enable)
 void GPIO_DriveModeSet(GPIO_Port_TypeDef port, GPIO_DriveMode_TypeDef mode);
 
 
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /**************************************************************************//**
  * @brief
  *   Disable GPIO pin wake-up from EM4.
@@ -305,13 +333,6 @@ __STATIC_INLINE void GPIO_IntClear(uint32_t flags)
 }
 
 
-void GPIO_IntConfig(GPIO_Port_TypeDef port,
-                    unsigned int pin,
-                    bool risingEdge,
-                    bool fallingEdge,
-                    bool enable);
-
-
 /***************************************************************************//**
  * @brief
  *   Disable one or more GPIO interrupts.
@@ -407,22 +428,244 @@ __STATIC_INLINE void GPIO_Lock(void)
 }
 
 
-unsigned int GPIO_PinInGet(GPIO_Port_TypeDef port, unsigned int pin);
-void GPIO_PinModeSet(GPIO_Port_TypeDef port,
-                     unsigned int pin,
-                     GPIO_Mode_TypeDef mode,
-                     unsigned int out);
-void GPIO_PinOutClear(GPIO_Port_TypeDef port, unsigned int pin);
-unsigned int GPIO_PinOutGet(GPIO_Port_TypeDef port, unsigned int pin);
-void GPIO_PinOutSet(GPIO_Port_TypeDef port, unsigned int pin);
-void GPIO_PinOutToggle(GPIO_Port_TypeDef port, unsigned int pin);
+/***************************************************************************//**
+ * @brief
+ *   Read the pad value for a single pin in a GPIO port.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pin
+ *   The pin number to read.
+ *
+ * @return
+ *   The pin value, 0 or 1.
+ ******************************************************************************/
+__STATIC_INLINE unsigned int GPIO_PinInGet(GPIO_Port_TypeDef port, unsigned int pin)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port) && GPIO_PIN_VALID(pin));
 
-uint32_t GPIO_PortInGet(GPIO_Port_TypeDef port);
-void GPIO_PortOutClear(GPIO_Port_TypeDef port, uint32_t pins);
-uint32_t GPIO_PortOutGet(GPIO_Port_TypeDef port);
-void GPIO_PortOutSet(GPIO_Port_TypeDef port, uint32_t pins);
-void GPIO_PortOutSetVal(GPIO_Port_TypeDef port, uint32_t val, uint32_t mask);
-void GPIO_PortOutToggle(GPIO_Port_TypeDef port, uint32_t pins);
+  return((unsigned int)((GPIO->P[port].DIN >> pin) & 0x1));
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Set a single pin in GPIO data out port register to 0.
+ *
+ * @note
+ *   In order for the setting to take effect on the output pad, the pin must
+ *   have been configured properly. If not, it will take effect whenever the
+ *   pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pin
+ *   The pin to set.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PinOutClear(GPIO_Port_TypeDef port, unsigned int pin)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port) && GPIO_PIN_VALID(pin));
+
+  GPIO->P[port].DOUTCLR = 1 << pin;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Get current setting for a pin in a GPIO port data out register.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pin
+ *   The pin to get setting for.
+ *
+ * @return
+ *   The DOUT setting for the requested pin, 0 or 1.
+ ******************************************************************************/
+__STATIC_INLINE unsigned int GPIO_PinOutGet(GPIO_Port_TypeDef port, unsigned int pin)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port) && GPIO_PIN_VALID(pin));
+
+  return((unsigned int)((GPIO->P[port].DOUT >> pin) & 0x1));
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Set a single pin in GPIO data out register to 1.
+ *
+ * @note
+ *   In order for the setting to take effect on the output pad, the pin must
+ *   have been configured properly. If not, it will take effect whenever the
+ *   pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pin
+ *   The pin to set.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PinOutSet(GPIO_Port_TypeDef port, unsigned int pin)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port) && GPIO_PIN_VALID(pin));
+
+  GPIO->P[port].DOUTSET = 1 << pin;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Toggle a single pin in GPIO port data out register.
+ *
+ * @note
+ *   In order for the setting to take effect on the output pad, the pin must
+ *   have been configured properly. If not, it will take effect whenever the
+ *   pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pin
+ *   The pin to toggle.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PinOutToggle(GPIO_Port_TypeDef port, unsigned int pin)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port) && GPIO_PIN_VALID(pin));
+
+  GPIO->P[port].DOUTTGL = 1 << pin;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Read the pad values for GPIO port.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ ******************************************************************************/
+__STATIC_INLINE uint32_t GPIO_PortInGet(GPIO_Port_TypeDef port)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  return(GPIO->P[port].DIN & _GPIO_P_DIN_DIN_MASK);
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Set bits in DOUT register for a port to 0.
+ *
+ * @note
+ *   In order for the setting to take effect on the output pad, the pin must
+ *   have been configured properly. If not, it will take effect whenever the
+ *   pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pins
+ *   Bit mask for bits to clear in DOUT register.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PortOutClear(GPIO_Port_TypeDef port, uint32_t pins)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  GPIO->P[port].DOUTCLR = pins & _GPIO_P_DOUTCLR_DOUTCLR_MASK;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Get current setting for a GPIO port data out register.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @return
+ *   The data out setting for the requested port.
+ ******************************************************************************/
+__STATIC_INLINE uint32_t GPIO_PortOutGet(GPIO_Port_TypeDef port)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  return(GPIO->P[port].DOUT & _GPIO_P_DOUT_DOUT_MASK);
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Set bits GPIO data out register to 1.
+ *
+ * @note
+ *   In order for the setting to take effect on the respective output pads, the
+ *   pins must have been configured properly. If not, it will take effect
+ *   whenever the pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pins
+ *   Bit mask for bits to set to 1 in DOUT register.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PortOutSet(GPIO_Port_TypeDef port, uint32_t pins)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  GPIO->P[port].DOUTSET = pins & _GPIO_P_DOUTSET_DOUTSET_MASK;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Set GPIO port data out register.
+ *
+ * @note
+ *   In order for the setting to take effect on the respective output pads, the
+ *   pins must have been configured properly. If not, it will take effect
+ *   whenever the pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] val
+ *   Value to write to port data out register.
+ *
+ * @param[in] mask
+ *   Mask indicating which bits to modify.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PortOutSetVal(GPIO_Port_TypeDef port, uint32_t val, uint32_t mask)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  GPIO->P[port].DOUT = (GPIO->P[port].DOUT & ~mask) | (val & mask);
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Toggle a single pin in GPIO port data out register.
+ *
+ * @note
+ *   In order for the setting to take effect on the output pad, the pin must
+ *   have been configured properly. If not, it will take effect whenever the
+ *   pin has been properly configured.
+ *
+ * @param[in] port
+ *   The GPIO port to access.
+ *
+ * @param[in] pins
+ *   Bitmask with pins to toggle.
+ ******************************************************************************/
+__STATIC_INLINE void GPIO_PortOutToggle(GPIO_Port_TypeDef port, uint32_t pins)
+{
+  EFM_ASSERT(GPIO_PORT_VALID(port));
+
+  GPIO->P[port].DOUTTGL = pins & _GPIO_P_DOUTTGL_DOUTTGL_MASK;
+}
+
 
 /***************************************************************************//**
  * @brief

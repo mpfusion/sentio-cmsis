@@ -2,7 +2,7 @@
  * @file
  * @brief Peripheral Reflex System (PRS) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -33,7 +33,7 @@
 #ifndef __EM_PRS_H
 #define __EM_PRS_H
 
-#include "em_part.h"
+#include "em_device.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M Peripheral Access Layer Header File
  *        for EFM32LG890F256
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -122,6 +122,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GIANT_FAMILY    1 /**< Giant/Leopard Gecko EFM32LG/GG MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32LG890F256)
@@ -939,7 +940,7 @@ typedef struct
 
 /* Bit fields for CMU CMD */
 #define _CMU_CMD_RESETVALUE                         0x00000000UL                     /**< Default value for CMU_CMD */
-#define _CMU_CMD_MASK                               0x0000007FUL                     /**< Mask for CMU_CMD */
+#define _CMU_CMD_MASK                               0x0000001FUL                     /**< Mask for CMU_CMD */
 #define _CMU_CMD_HFCLKSEL_SHIFT                     0                                /**< Shift value for CMU_HFCLKSEL */
 #define _CMU_CMD_HFCLKSEL_MASK                      0x7UL                            /**< Bit mask for CMU_HFCLKSEL */
 #define _CMU_CMD_HFCLKSEL_DEFAULT                   0x00000000UL                     /**< Mode DEFAULT for CMU_CMD */
@@ -1011,7 +1012,7 @@ typedef struct
 
 /* Bit fields for CMU STATUS */
 #define _CMU_STATUS_RESETVALUE                      0x00000403UL                           /**< Default value for CMU_STATUS */
-#define _CMU_STATUS_MASK                            0x0003FFFFUL                           /**< Mask for CMU_STATUS */
+#define _CMU_STATUS_MASK                            0x00007FFFUL                           /**< Mask for CMU_STATUS */
 #define CMU_STATUS_HFRCOENS                         (0x1UL << 0)                           /**< HFRCO Enable Status */
 #define _CMU_STATUS_HFRCOENS_SHIFT                  0                                      /**< Shift value for CMU_HFRCOENS */
 #define _CMU_STATUS_HFRCOENS_MASK                   0x1UL                                  /**< Bit mask for CMU_HFRCOENS */
@@ -1090,7 +1091,7 @@ typedef struct
 
 /* Bit fields for CMU IF */
 #define _CMU_IF_RESETVALUE                          0x00000001UL                       /**< Default value for CMU_IF */
-#define _CMU_IF_MASK                                0x000000FFUL                       /**< Mask for CMU_IF */
+#define _CMU_IF_MASK                                0x0000007FUL                       /**< Mask for CMU_IF */
 #define CMU_IF_HFRCORDY                             (0x1UL << 0)                       /**< HFRCO Ready Interrupt Flag */
 #define _CMU_IF_HFRCORDY_SHIFT                      0                                  /**< Shift value for CMU_HFRCORDY */
 #define _CMU_IF_HFRCORDY_MASK                       0x1UL                              /**< Bit mask for CMU_HFRCORDY */
@@ -1129,7 +1130,7 @@ typedef struct
 
 /* Bit fields for CMU IFS */
 #define _CMU_IFS_RESETVALUE                         0x00000000UL                        /**< Default value for CMU_IFS */
-#define _CMU_IFS_MASK                               0x000000FFUL                        /**< Mask for CMU_IFS */
+#define _CMU_IFS_MASK                               0x0000007FUL                        /**< Mask for CMU_IFS */
 #define CMU_IFS_HFRCORDY                            (0x1UL << 0)                        /**< HFRCO Ready Interrupt Flag Set */
 #define _CMU_IFS_HFRCORDY_SHIFT                     0                                   /**< Shift value for CMU_HFRCORDY */
 #define _CMU_IFS_HFRCORDY_MASK                      0x1UL                               /**< Bit mask for CMU_HFRCORDY */
@@ -1168,7 +1169,7 @@ typedef struct
 
 /* Bit fields for CMU IFC */
 #define _CMU_IFC_RESETVALUE                         0x00000000UL                        /**< Default value for CMU_IFC */
-#define _CMU_IFC_MASK                               0x000000FFUL                        /**< Mask for CMU_IFC */
+#define _CMU_IFC_MASK                               0x0000007FUL                        /**< Mask for CMU_IFC */
 #define CMU_IFC_HFRCORDY                            (0x1UL << 0)                        /**< HFRCO Ready Interrupt Flag Clear */
 #define _CMU_IFC_HFRCORDY_SHIFT                     0                                   /**< Shift value for CMU_HFRCORDY */
 #define _CMU_IFC_HFRCORDY_MASK                      0x1UL                               /**< Bit mask for CMU_HFRCORDY */
@@ -1207,7 +1208,7 @@ typedef struct
 
 /* Bit fields for CMU IEN */
 #define _CMU_IEN_RESETVALUE                         0x00000000UL                        /**< Default value for CMU_IEN */
-#define _CMU_IEN_MASK                               0x000000FFUL                        /**< Mask for CMU_IEN */
+#define _CMU_IEN_MASK                               0x0000007FUL                        /**< Mask for CMU_IEN */
 #define CMU_IEN_HFRCORDY                            (0x1UL << 0)                        /**< HFRCO Ready Interrupt Enable */
 #define _CMU_IEN_HFRCORDY_SHIFT                     0                                   /**< Shift value for CMU_HFRCORDY */
 #define _CMU_IEN_HFRCORDY_MASK                      0x1UL                               /**< Bit mask for CMU_HFRCORDY */
@@ -1246,7 +1247,7 @@ typedef struct
 
 /* Bit fields for CMU HFCORECLKEN0 */
 #define _CMU_HFCORECLKEN0_RESETVALUE                0x00000000UL                         /**< Default value for CMU_HFCORECLKEN0 */
-#define _CMU_HFCORECLKEN0_MASK                      0x0000003FUL                         /**< Mask for CMU_HFCORECLKEN0 */
+#define _CMU_HFCORECLKEN0_MASK                      0x00000033UL                         /**< Mask for CMU_HFCORECLKEN0 */
 #define CMU_HFCORECLKEN0_DMA                        (0x1UL << 0)                         /**< Direct Memory Access Controller Clock Enable */
 #define _CMU_HFCORECLKEN0_DMA_SHIFT                 0                                    /**< Shift value for CMU_DMA */
 #define _CMU_HFCORECLKEN0_DMA_MASK                  0x1UL                                /**< Bit mask for CMU_DMA */
@@ -2073,7 +2074,7 @@ typedef struct
 
 
 /**************************************************************************//**
- * @defgroup EFM32LG890F256_UNLOCK Unlock Codes
+ * @defgroup EFM32LG890F256_UNLOCK EFM32LG890F256 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

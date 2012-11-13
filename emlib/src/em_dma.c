@@ -2,7 +2,7 @@
  * @file
  * @brief Direct memory access (DMA) module peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -260,6 +260,8 @@ static void DMA_Prepare(unsigned int channel,
  ************************   INTERRUPT FUNCTIONS   ******************************
  ******************************************************************************/
 
+#ifndef EXCLUDE_DEFAULT_DMA_IRQ_HANDLER
+
 /***************************************************************************//**
  * @brief
  *   Interrupt handler for DMA cycle completion handling.
@@ -271,10 +273,14 @@ static void DMA_Prepare(unsigned int channel,
  *   is automatically placed in the IRQ table due to weak linking. If taking
  *   control over the interrupt vector table in some other way, this interrupt
  *   handler must be installed in order to be able to support callback actions.
+ *
+ *   In order for the user to implement a custom IRQ handler or run without
+ *   a DMA IRQ handler, the user can define EXCLUDE_DEFAULT_DMA_IRQ_HANDLER
+ *   with a #define statement or with the compiler option -D.
+ *
  ******************************************************************************/
 void DMA_IRQHandler(void)
 {
-  DMA_DESCRIPTOR_TypeDef *descr = (DMA_DESCRIPTOR_TypeDef *)(DMA->CTRLBASE);
   int                    channel;
   DMA_CB_TypeDef         *cb;
   uint32_t               pending;
@@ -283,8 +289,9 @@ void DMA_IRQHandler(void)
   uint32_t               primaryCpy;
   int                    i;
 
-  /* Get all pending interrupts */
-  pending = DMA->IF;
+  /* Get all pending and enabled interrupts */
+  pending  = DMA->IF;
+  pending &= DMA->IEN;
 
   /* Check for bus error */
   if (pending & DMA_IF_ERR)
@@ -307,9 +314,12 @@ void DMA_IRQHandler(void)
     {
       if (pendingPrio & 1)
       {
+        DMA_DESCRIPTOR_TypeDef *descr = (DMA_DESCRIPTOR_TypeDef *)(DMA->CTRLBASE);;
+        uint32_t chmask = 1 << channel;
+
         /* Clear pending interrupt prior to invoking callback, in case it */
         /* sets up another DMA cycle. */
-        DMA->IFC = 1 << channel;
+        DMA->IFC = chmask;
 
         /* Normally, no point in enabling interrupt without callback, but */
         /* check if callback is defined anyway. Callback info is always */
@@ -336,6 +346,8 @@ void DMA_IRQHandler(void)
     pendingPrio = pending & ~prio;
   }
 }
+
+#endif /* EXCLUDE_DEFAULT_DMA_IRQ_HANDLER */
 
 
 /*******************************************************************************

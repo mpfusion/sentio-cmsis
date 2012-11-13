@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M3 Peripheral Access Layer Header File
  *        for EFM EFM32TG840F32
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -107,6 +107,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_TINY_FAMILY    1 /**< Tiny Gecko EFM32TG MCU Family */
+#define _EFM_DEVICE             /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32TG840F32)
@@ -345,7 +346,7 @@ typedef enum IRQn
 #include "efm32tg_dmactrl.h"
 
 /**************************************************************************//**
- * @defgroup EFM32TG840F32_UNLOCK Unlock Codes
+ * @defgroup EFM32TG840F32_UNLOCK EFM32TG840F32 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

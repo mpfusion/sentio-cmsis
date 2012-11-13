@@ -1,4 +1,19 @@
 ================ Revision history ============================================
+3.0.2:
+ - Part header files: New header file em_device.h replace previous efm32.h. 
+   efm32.h is kept for backward compatibility.
+ - Part startup files: system_efm32*.c files now handle CMU HFRCO frequencies
+   correct for Production Revision 19 and higher.
+   IAR startup_efm32*.c files now includes em_device.h.
+ - emlib: Changes in MSC, CMU, BITBAND, DMA, BURTC and SYSTEM modules.
+   Refer to emlib changes file for details.
+ - usb: Bugfix, USBD_Init() may now be called when USB peripheral is in partial
+   powerdown mode.
+   New function USBD_EpIsBusy( int epAddr ) added to API.
+   Changed USBD_AbortTransfer() from USBD_AbortTransfer( uint8_t ) to
+   USBD_AbortTransfer( int ).
+   Added configuration of which hw TIMER the stack will use.
+
 3.0.1:
  - Part header files: Corrected resetvalue for CMU CTRL register
  - Part header files: Added missing DMA channel registers for Giant family

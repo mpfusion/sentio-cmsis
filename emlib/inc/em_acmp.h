@@ -2,7 +2,7 @@
  * @file
  * @brief Analog Comparator (ACMP) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -131,7 +131,7 @@ typedef enum
   acmpChannel2V5  = _ACMP_INPUTSEL_NEGSEL_2V5,
   /** Scaled VDD reference */
   acmpChannelVDD  = _ACMP_INPUTSEL_NEGSEL_VDD,
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_TINY_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   /** DAC0 channel 0 */
   acmpChannelDAC0Ch0 = _ACMP_INPUTSEL_NEGSEL_DAC0CH0,
   /** DAC0 channel 1 */

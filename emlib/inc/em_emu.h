@@ -2,7 +2,7 @@
  * @file
  * @brief Energy management unit (EMU) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -34,7 +34,7 @@
 #define __EM_EMU_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 #include "em_bitband.h"
 
 #ifdef __cplusplus
@@ -55,15 +55,15 @@ extern "C" {
  ********************************   ENUMS   ************************************
  ******************************************************************************/
 
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** EM4 duty oscillator */
 typedef enum
 {
   /** Select ULFRCO as duty oscillator in EM4 */
   emuEM4Osc_ULFRCO = EMU_EM4CONF_OSC_ULFRCO,
   /** Select LFXO as duty oscillator in EM4 */
-  emuEM4Osc_LFXO = EMU_EM4CONF_OSC_LFXO, 
-  /** Select LFRCO as duty oscillator in EM4 */    
+  emuEM4Osc_LFXO = EMU_EM4CONF_OSC_LFXO,
+  /** Select LFRCO as duty oscillator in EM4 */
   emuEM4Osc_LFRCO = EMU_EM4CONF_OSC_LFRCO
 } EMU_EM4Osc_TypeDef;
 
@@ -122,17 +122,17 @@ typedef enum
  *******************************   STRUCTS   ***********************************
  ******************************************************************************/
 
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)  
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** Energy Mode 4 initialization structure  */
-typedef struct 
+typedef struct
 {
   /** Lock configuration of regulator, BOD and oscillator */
   bool               lockConfig;
   /** EM4 duty oscillator */
-  EMU_EM4Osc_TypeDef osc;  
+  EMU_EM4Osc_TypeDef osc;
   /** Wake up on EM4 BURTC interrupt */
   bool               buRtcWakeup;
-  /** Enable EM4 voltage regulator */  
+  /** Enable EM4 voltage regulator */
   bool               vreg;
 } EMU_EM4Init_TypeDef;
 
@@ -145,7 +145,7 @@ typedef struct
   }
 
 /** Backup Power Domain Initialization structure */
-typedef struct 
+typedef struct
 {
   /* Backup Power Domain power configuration */
 
@@ -153,7 +153,7 @@ typedef struct
   EMU_Probe_TypeDef probe;
   /** Enable BOD calibration mode */
   bool              bodCal;
-  /** Enable BU_STAT status pin for active BU mode */ 
+  /** Enable BU_STAT status pin for active BU mode */
   bool              statusPinEnable;
 
   /* Backup Power Domain connection configuration */
@@ -211,7 +211,7 @@ void EMU_EnterEM3(bool restore);
 void EMU_EnterEM4(void);
 void EMU_MemPwrDown(uint32_t blocks);
 void EMU_UpdateOscConfig(void);
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 void EMU_EM4Init(EMU_EM4Init_TypeDef *em4init);
 void EMU_BUPDInit(EMU_BUPDInit_TypeDef *bupdInit);
 void EMU_BUThresholdSet(EMU_BODMode_TypeDef mode, uint32_t value);

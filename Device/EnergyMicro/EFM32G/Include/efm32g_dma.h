@@ -2,7 +2,7 @@
  * @file
  * @brief efm32g_dma Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -78,7 +78,7 @@ typedef struct
 
 /* Bit fields for DMA STATUS */
 #define _DMA_STATUS_RESETVALUE                          0x10070000UL                          /**< Default value for DMA_STATUS */
-#define _DMA_STATUS_MASK                                0xF01F00F1UL                          /**< Mask for DMA_STATUS */
+#define _DMA_STATUS_MASK                                0x001F00F1UL                          /**< Mask for DMA_STATUS */
 #define DMA_STATUS_EN                                   (0x1UL << 0)                          /**< DMA Enable Status */
 #define _DMA_STATUS_EN_SHIFT                            0                                     /**< Shift value for DMA_EN */
 #define _DMA_STATUS_EN_MASK                             0x1UL                                 /**< Bit mask for DMA_EN */

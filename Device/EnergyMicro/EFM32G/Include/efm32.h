@@ -9,7 +9,7 @@
  *          Add "#include "efm32.h" to your source files
  * @endverbatim
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -41,104 +41,8 @@
 #ifndef __EFM32_H
 #define __EFM32_H
 
+/* This file is kept for backwards compability. */
 
-#if defined(EFM32G200F16)
-#include "efm32g200f16.h"
-
-#elif defined(EFM32G200F32)
-#include "efm32g200f32.h"
-
-#elif defined(EFM32G200F64)
-#include "efm32g200f64.h"
-
-#elif defined(EFM32G210F128)
-#include "efm32g210f128.h"
-
-#elif defined(EFM32G222F128)
-#include "efm32g222f128.h"
-
-#elif defined(EFM32G222F32)
-#include "efm32g222f32.h"
-
-#elif defined(EFM32G222F64)
-#include "efm32g222f64.h"
-
-#elif defined(EFM32G230F128)
-#include "efm32g230f128.h"
-
-#elif defined(EFM32G230F32)
-#include "efm32g230f32.h"
-
-#elif defined(EFM32G230F64)
-#include "efm32g230f64.h"
-
-#elif defined(EFM32G232F128)
-#include "efm32g232f128.h"
-
-#elif defined(EFM32G232F32)
-#include "efm32g232f32.h"
-
-#elif defined(EFM32G232F64)
-#include "efm32g232f64.h"
-
-#elif defined(EFM32G280F128)
-#include "efm32g280f128.h"
-
-#elif defined(EFM32G280F32)
-#include "efm32g280f32.h"
-
-#elif defined(EFM32G280F64)
-#include "efm32g280f64.h"
-
-#elif defined(EFM32G290F128)
-#include "efm32g290f128.h"
-
-#elif defined(EFM32G290F32)
-#include "efm32g290f32.h"
-
-#elif defined(EFM32G290F64)
-#include "efm32g290f64.h"
-
-#elif defined(EFM32G840F128)
-#include "efm32g840f128.h"
-
-#elif defined(EFM32G840F32)
-#include "efm32g840f32.h"
-
-#elif defined(EFM32G840F64)
-#include "efm32g840f64.h"
-
-#elif defined(EFM32G842F128)
-#include "efm32g842f128.h"
-
-#elif defined(EFM32G842F32)
-#include "efm32g842f32.h"
-
-#elif defined(EFM32G842F64)
-#include "efm32g842f64.h"
-
-#elif defined(EFM32G880F128)
-#include "efm32g880f128.h"
-
-#elif defined(EFM32G880F32)
-#include "efm32g880f32.h"
-
-#elif defined(EFM32G880F64)
-#include "efm32g880f64.h"
-
-#elif defined(EFM32G890F128)
-#include "efm32g890f128.h"
-
-#elif defined(EFM32G890F32)
-#include "efm32g890f32.h"
-
-#elif defined(EFM32G890F64)
-#include "efm32g890f64.h"
-
-
-#else
-#error "efm32.h: PART NUMBER undefined"
-#endif
+#include "em_device.h"
 
 #endif
-

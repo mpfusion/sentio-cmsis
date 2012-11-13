@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M Peripheral Access Layer Header File
  *        for EFM32GG380F1024
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -122,6 +122,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GIANT_FAMILY    1 /**< Giant/Leopard Gecko EFM32LG/GG MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32GG380F1024)
@@ -1358,7 +1359,7 @@ typedef struct
 
 /* Bit fields for CMU LFACLKEN0 */
 #define _CMU_LFACLKEN0_RESETVALUE                   0x00000000UL                           /**< Default value for CMU_LFACLKEN0 */
-#define _CMU_LFACLKEN0_MASK                         0x0000000FUL                           /**< Mask for CMU_LFACLKEN0 */
+#define _CMU_LFACLKEN0_MASK                         0x00000007UL                           /**< Mask for CMU_LFACLKEN0 */
 #define CMU_LFACLKEN0_LESENSE                       (0x1UL << 0)                           /**< Low Energy Sensor Interface Clock Enable */
 #define _CMU_LFACLKEN0_LESENSE_SHIFT                0                                      /**< Shift value for CMU_LESENSE */
 #define _CMU_LFACLKEN0_LESENSE_MASK                 0x1UL                                  /**< Bit mask for CMU_LESENSE */
@@ -1391,7 +1392,7 @@ typedef struct
 
 /* Bit fields for CMU LFAPRESC0 */
 #define _CMU_LFAPRESC0_RESETVALUE                   0x00000000UL                            /**< Default value for CMU_LFAPRESC0 */
-#define _CMU_LFAPRESC0_MASK                         0x00003FF3UL                            /**< Mask for CMU_LFAPRESC0 */
+#define _CMU_LFAPRESC0_MASK                         0x00000FF3UL                            /**< Mask for CMU_LFAPRESC0 */
 #define _CMU_LFAPRESC0_LESENSE_SHIFT                0                                       /**< Shift value for CMU_LESENSE */
 #define _CMU_LFAPRESC0_LESENSE_MASK                 0x3UL                                   /**< Bit mask for CMU_LESENSE */
 #define _CMU_LFAPRESC0_LESENSE_DIV1                 0x00000000UL                            /**< Mode DIV1 for CMU_LFAPRESC0 */
@@ -1584,7 +1585,7 @@ typedef struct
 
 
 /**************************************************************************//**
- * @defgroup EFM32GG380F1024_UNLOCK Unlock Codes
+ * @defgroup EFM32GG380F1024_UNLOCK EFM32GG380F1024 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

@@ -1,7 +1,7 @@
 /* @file
  * @brief startup file for Energy Micro EFM32GG devices.
  *        For use with GCC for ARM Embedded Processors
- * @version 3.0.1
+ * @version 3.0.2
  * Date: 08 Feb 2012
  *
  * Copyright (c) 2012, ARM Limited

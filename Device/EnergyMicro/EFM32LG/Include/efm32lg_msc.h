@@ -2,7 +2,7 @@
  * @file
  * @brief efm32lg_msc Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -177,7 +177,7 @@ typedef struct
 
 /* Bit fields for MSC WRITECMD */
 #define _MSC_WRITECMD_RESETVALUE                0x00000000UL                             /**< Default value for MSC_WRITECMD */
-#define _MSC_WRITECMD_MASK                      0x0000933FUL                             /**< Mask for MSC_WRITECMD */
+#define _MSC_WRITECMD_MASK                      0x0000133FUL                             /**< Mask for MSC_WRITECMD */
 #define MSC_WRITECMD_LADDRIM                    (0x1UL << 0)                             /**< Load MSC_ADDRB into ADDR */
 #define _MSC_WRITECMD_LADDRIM_SHIFT             0                                        /**< Shift value for MSC_LADDRIM */
 #define _MSC_WRITECMD_LADDRIM_MASK              0x1UL                                    /**< Bit mask for MSC_LADDRIM */

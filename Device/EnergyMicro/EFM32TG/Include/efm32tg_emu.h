@@ -2,7 +2,7 @@
  * @file
  * @brief efm32tg_emu Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -53,7 +53,7 @@ typedef struct
 
 /* Bit fields for EMU CTRL */
 #define _EMU_CTRL_RESETVALUE           0x00000000UL                      /**< Default value for EMU_CTRL */
-#define _EMU_CTRL_MASK                 0x000001BFUL                      /**< Mask for EMU_CTRL */
+#define _EMU_CTRL_MASK                 0x0000000FUL                      /**< Mask for EMU_CTRL */
 #define EMU_CTRL_EMVREG                (0x1UL << 0)                      /**< Energy Mode Voltage Regulator Control */
 #define _EMU_CTRL_EMVREG_SHIFT         0                                 /**< Shift value for EMU_EMVREG */
 #define _EMU_CTRL_EMVREG_MASK          0x1UL                             /**< Bit mask for EMU_EMVREG */

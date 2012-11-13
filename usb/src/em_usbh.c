@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library API for EFM32.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_HOST )
@@ -50,10 +50,10 @@
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 
 USBH_Hc_TypeDef                   hcs[ NUM_HC_USED + 2 ];
-int                               USBH_AttachRetryCount;
-USBH_Init_TypeDef                 USBH_InitData;
-volatile USBH_PortState_TypeDef   USBH_PortStatus;
-const USBH_AttachTiming_TypeDef   USBH_AttachTiming[]=
+int                               USBH_attachRetryCount;
+USBH_Init_TypeDef                 USBH_initData;
+volatile USBH_PortState_TypeDef   USBH_portStatus;
+const USBH_AttachTiming_TypeDef   USBH_attachTiming[]=
 {
   /* debounceTime resetTime */
   {  200, 15 },
@@ -624,7 +624,7 @@ int USBH_CtlTxRaw( uint8_t pid, USBH_Ep_TypeDef *ep, void *data, int byteCount )
  ******************************************************************************/
 bool USBH_DeviceConnected( void )
 {
-  return USBH_PortStatus == H_PORT_CONNECTED;
+  return USBH_portStatus == H_PORT_CONNECTED;
 }
 
 /***************************************************************************//**
@@ -863,11 +863,11 @@ int USBH_Init( const USBH_Init_TypeDef *p )
     EFM_ASSERT( false );
     return USB_STATUS_ILLEGAL;
   }
-  USBH_InitData = *p;
+  USBH_initData = *p;
 
   CMU_ClockSelectSet( cmuClock_HF, cmuSelect_HFXO );
   USBTIMER_Init();
-  USBH_PortStatus = H_PORT_DISCONNECTED;
+  USBH_portStatus = H_PORT_DISCONNECTED;
 
   /* Enable USB clock. */
   INT_Disable();
@@ -999,7 +999,7 @@ int USBH_PortReset( void )
     return USB_STATUS_ILLEGAL;
   }
 
-  USBH_PortStatus = H_PORT_CONNECTED_RESETTING;
+  USBH_portStatus = H_PORT_CONNECTED_RESETTING;
   USBHHAL_PortReset( true );
   INT_Enable();
   USBTIMER_DelayMs( 30 );                 /* USB Reset delay */
@@ -1007,7 +1007,7 @@ int USBH_PortReset( void )
   USBHHAL_PortReset( false );
   INT_Enable();
   USBTIMER_DelayMs( 10 );                 /* Reset recovery time */
-  USBH_PortStatus = H_PORT_DISCONNECTED;
+  USBH_portStatus = H_PORT_DISCONNECTED;
 
   return USB_STATUS_OK;
 }
@@ -1065,7 +1065,7 @@ int USBH_PortVbusOn( bool on )
   USBHHAL_VbusOn( on );
 
   if ( !on )
-    USBH_PortStatus = H_PORT_DISCONNECTED;
+    USBH_portStatus = H_PORT_DISCONNECTED;
 
   INT_Enable();
   USBTIMER_DelayMs( PORT_VBUS_DELAY );
@@ -2116,8 +2116,8 @@ static void InitUsb( void )
   }
 
   INT_Disable();
-  USBHHAL_CoreInit( USBH_InitData.rxFifoSize, USBH_InitData.nptxFifoSize,
-                    USBH_InitData.ptxFifoSize );
+  USBHHAL_CoreInit( USBH_initData.rxFifoSize, USBH_initData.nptxFifoSize,
+                    USBH_initData.ptxFifoSize );
 
   NVIC_ClearPendingIRQ( USB_IRQn );
   INT_Enable();
@@ -2168,7 +2168,7 @@ int USBH_WaitForDeviceConnectionB( uint8_t *buf, int timeoutInSeconds )
 
   xferError = false;
   accumulatedTime = 0;
-  USBH_AttachRetryCount = 0;
+  USBH_attachRetryCount = 0;
   deadLine = timeoutInSeconds * 1000;
   device = (USBH_Device_TypeDef*)buf;
 
@@ -2219,7 +2219,7 @@ int USBH_WaitForDeviceConnectionB( uint8_t *buf, int timeoutInSeconds )
         USBHHAL_PortReset( false );
         USBHHAL_VbusOn( false );
         USBTIMER_Stop( HOSTPORT_TIMER_INDEX );
-        USBH_PortStatus = H_PORT_OVERCURRENT;
+        USBH_portStatus = H_PORT_OVERCURRENT;
         return USB_STATUS_PORT_OVERCURRENT;
       }
 #endif
@@ -2258,8 +2258,8 @@ int USBH_WaitForDeviceConnectionB( uint8_t *buf, int timeoutInSeconds )
          ( accumulatedTime >= deadLine )    )
       break;
 
-    USBH_AttachRetryCount = ( USBH_AttachRetryCount + 1 ) %
-                            ( sizeof( USBH_AttachTiming ) /
+    USBH_attachRetryCount = ( USBH_attachRetryCount + 1 ) %
+                            ( sizeof( USBH_attachTiming ) /
                               sizeof( USBH_AttachTiming_TypeDef ) );
   }
 
@@ -2761,7 +2761,12 @@ for (;;)
 
 // Define a function for transmitting a single char on the serial port.
 extern int RETARGET_WriteChar(char c);
-#define USER_PUTCHAR  RETARGET_WriteChar @endverbatim
+#define USER_PUTCHAR  RETARGET_WriteChar
+
+#define USB_TIMER USB_TIMERn  // Select which hardware timer the USB stack
+                              // is allowed to use. Valid values are n=0,1,2...
+                              // corresponding to TIMER0, TIMER1, ...
+                              // If not specified, TIMER0 is used @endverbatim
 
   @n You are strongly encouraged to start application development with DEBUG_USB_API
   turned on. When DEBUG_USB_API is turned on and USER_PUTCHAR is defined, useful

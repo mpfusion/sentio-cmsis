@@ -2,7 +2,7 @@
  * @file
  * @brief efm32tg_lcd Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -97,7 +97,7 @@ typedef struct
 
 /* Bit fields for LCD DISPCTRL */
 #define _LCD_DISPCTRL_RESETVALUE           0x000C1F00UL                            /**< Default value for LCD_DISPCTRL */
-#define _LCD_DISPCTRL_MASK                 0x007D9F1FUL                            /**< Mask for LCD_DISPCTRL */
+#define _LCD_DISPCTRL_MASK                 0x005D9F1FUL                            /**< Mask for LCD_DISPCTRL */
 #define _LCD_DISPCTRL_MUX_SHIFT            0                                       /**< Shift value for LCD_MUX */
 #define _LCD_DISPCTRL_MUX_MASK             0x3UL                                   /**< Bit mask for LCD_MUX */
 #define _LCD_DISPCTRL_MUX_DEFAULT          0x00000000UL                            /**< Mode DEFAULT for LCD_DISPCTRL */

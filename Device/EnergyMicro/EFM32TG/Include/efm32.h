@@ -9,7 +9,7 @@
  *          Add "#include "efm32.h" to your source files
  * @endverbatim
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -41,116 +41,8 @@
 #ifndef __EFM32_H
 #define __EFM32_H
 
+/* This file is kept for backwards compability. */
 
-#if defined(EFM32TG108F16)
-#include "efm32tg108f16.h"
-
-#elif defined(EFM32TG108F32)
-#include "efm32tg108f32.h"
-
-#elif defined(EFM32TG108F4)
-#include "efm32tg108f4.h"
-
-#elif defined(EFM32TG108F8)
-#include "efm32tg108f8.h"
-
-#elif defined(EFM32TG110F16)
-#include "efm32tg110f16.h"
-
-#elif defined(EFM32TG110F32)
-#include "efm32tg110f32.h"
-
-#elif defined(EFM32TG110F4)
-#include "efm32tg110f4.h"
-
-#elif defined(EFM32TG110F8)
-#include "efm32tg110f8.h"
-
-#elif defined(EFM32TG210F16)
-#include "efm32tg210f16.h"
-
-#elif defined(EFM32TG210F32)
-#include "efm32tg210f32.h"
-
-#elif defined(EFM32TG210F8)
-#include "efm32tg210f8.h"
-
-#elif defined(EFM32TG222F16)
-#include "efm32tg222f16.h"
-
-#elif defined(EFM32TG222F32)
-#include "efm32tg222f32.h"
-
-#elif defined(EFM32TG222F8)
-#include "efm32tg222f8.h"
-
-#elif defined(EFM32TG225F16)
-#include "efm32tg225f16.h"
-
-#elif defined(EFM32TG225F32)
-#include "efm32tg225f32.h"
-
-#elif defined(EFM32TG225F8)
-#include "efm32tg225f8.h"
-
-#elif defined(EFM32TG230F16)
-#include "efm32tg230f16.h"
-
-#elif defined(EFM32TG230F32)
-#include "efm32tg230f32.h"
-
-#elif defined(EFM32TG230F8)
-#include "efm32tg230f8.h"
-
-#elif defined(EFM32TG232F16)
-#include "efm32tg232f16.h"
-
-#elif defined(EFM32TG232F32)
-#include "efm32tg232f32.h"
-
-#elif defined(EFM32TG232F8)
-#include "efm32tg232f8.h"
-
-#elif defined(EFM32TG822F16)
-#include "efm32tg822f16.h"
-
-#elif defined(EFM32TG822F32)
-#include "efm32tg822f32.h"
-
-#elif defined(EFM32TG822F8)
-#include "efm32tg822f8.h"
-
-#elif defined(EFM32TG825F16)
-#include "efm32tg825f16.h"
-
-#elif defined(EFM32TG825F32)
-#include "efm32tg825f32.h"
-
-#elif defined(EFM32TG825F8)
-#include "efm32tg825f8.h"
-
-#elif defined(EFM32TG840F16)
-#include "efm32tg840f16.h"
-
-#elif defined(EFM32TG840F32)
-#include "efm32tg840f32.h"
-
-#elif defined(EFM32TG840F8)
-#include "efm32tg840f8.h"
-
-#elif defined(EFM32TG842F16)
-#include "efm32tg842f16.h"
-
-#elif defined(EFM32TG842F32)
-#include "efm32tg842f32.h"
-
-#elif defined(EFM32TG842F8)
-#include "efm32tg842f8.h"
-
-
-#else
-#error "efm32.h: PART NUMBER undefined"
-#endif
+#include "em_device.h"
 
 #endif
-

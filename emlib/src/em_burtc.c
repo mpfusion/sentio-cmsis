@@ -2,7 +2,7 @@
  * @file
  * @brief Backup Real Time Counter (BURTC) Peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -30,7 +30,7 @@
  * arising from your use of this Software.
  *
  ******************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined(BURTC_PRESENT)
 #include "em_burtc.h"
 
@@ -76,6 +76,28 @@ __STATIC_INLINE uint32_t BURTC_DivToLog2(uint32_t div)
 }
 
 
+/***************************************************************************//**
+ * @brief
+ *   Wait for ongoing sync of register(s) to low frequency domain to complete.
+ *
+ * @param[in] mask
+ *   Bitmask corresponding to SYNCBUSY register defined bits, indicating
+ *   registers that must complete any ongoing synchronization.
+ ******************************************************************************/
+__STATIC_INLINE void BURTC_Sync(uint32_t mask)
+{
+  /* Avoid deadlock if modifying the same register twice when freeze mode is */
+  /* activated. */
+  if (BURTC->FREEZE & BURTC_FREEZE_REGFREEZE)
+    return;
+
+  /* Wait for any pending previous write operation to have been completed */
+  /* in low frequency domain. This is only required for the Gecko Family */
+  while (BURTC->SYNCBUSY & mask)
+    ;
+}
+
+
 /*******************************************************************************
  **************************   GLOBAL FUNCTIONS   *******************************
  ******************************************************************************/
@@ -87,7 +109,7 @@ __STATIC_INLINE uint32_t BURTC_DivToLog2(uint32_t div)
  *    Configures the BURTC peripheral.
  *
  * @note
- *   Before initialization, BURTC module must first be enabled by clearing the 
+ *   Before initialization, BURTC module must first be enabled by clearing the
  *   reset bit in the RMU, i.e.
  * @verbatim
  *   RMU_ResetControl(rmuResetBU, false);
@@ -123,16 +145,20 @@ void BURTC_Init(const BURTC_Init_TypeDef *burtcInit)
   presc = BURTC_DivToLog2(burtcInit->clkDiv);
 
   /* Make sure all registers are updated simultaneously */
-  if (burtcInit->enable) 
+  if (burtcInit->enable)
   {
     BURTC_FreezeEnable(true);
   }
+
+  /* Modification of LPMODE register requires sync with potential ongoing
+     register updates in LF domain. */
+  BURTC_Sync(BURTC_SYNCBUSY_LPMODE);
 
   /* Configure low power mode */
   BURTC->LPMODE = (uint32_t)(burtcInit->lowPowerMode);
 
   /* New configuration */
-  ctrl = ((BURTC_CTRL_RSTEN) | 
+  ctrl = ((BURTC_CTRL_RSTEN) |
           (burtcInit->mode) |
           (burtcInit->debugRun << _BURTC_CTRL_DEBUGRUN_SHIFT) |
           (burtcInit->compare0Top << _BURTC_CTRL_COMP0TOP_SHIFT) |
@@ -155,9 +181,6 @@ void BURTC_Init(const BURTC_Init_TypeDef *burtcInit)
 
     /* Clear freeze */
     BURTC_FreezeEnable(false);
-
-    /* Await synchronization into low frequency domain */
-    while (BURTC->SYNCBUSY) ;
   }
 }
 
@@ -171,23 +194,16 @@ void BURTC_Init(const BURTC_Init_TypeDef *burtcInit)
  ******************************************************************************/
 void BURTC_CompareSet(unsigned int comp, uint32_t value)
 {
+  (void)comp;  /* Unused parameter when EFM_ASSERT is undefined. */
+
   EFM_ASSERT(comp == 0);
+
+  /* Modification of COMP0 register requires sync with potential ongoing
+     register updates in LF domain. */
+  BURTC_Sync(BURTC_SYNCBUSY_COMP0);
 
   /* Configure compare channel 0 */
   BURTC->COMP0 = value;
-
-  /* Check if freeze or RSTEN is active, if not wait for synchronization of register */
-  if (BURTC->FREEZE & BURTC_FREEZE_REGFREEZE_FREEZE)
-  {
-    return;
-  }
-  /* Check if mode is enabled */
-  if ((BURTC->CTRL & _BURTC_CTRL_MODE_MASK) == BURTC_CTRL_MODE_DISABLE)
-  {
-    return;
-  }
-
-  while (BURTC->SYNCBUSY & BURTC_SYNCBUSY_COMP0) ;
 }
 
 
@@ -200,6 +216,8 @@ void BURTC_CompareSet(unsigned int comp, uint32_t value)
  ******************************************************************************/
 uint32_t BURTC_CompareGet(unsigned int comp)
 {
+  (void)comp;  /* Unused parameter when EFM_ASSERT is undefined. */
+
   EFM_ASSERT(comp == 0);
 
   return BURTC->COMP0;

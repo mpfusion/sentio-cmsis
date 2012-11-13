@@ -3,7 +3,7 @@
  * @brief Universal synchronous/asynchronous receiver/transmitter (USART/UART)
  *   peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #define __EM_USART_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -215,7 +215,7 @@ typedef enum
 } USART_PrsRxCh_TypeDef;
 #endif
 
-#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** USART PRS Transmit Trigger Channels */
 typedef enum
 {
@@ -276,7 +276,7 @@ typedef struct
 
 #if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** USART PRS trigger enable */
-typedef struct 
+typedef struct
 {
 #if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   /** Enable AUTOTX */
@@ -627,6 +627,23 @@ __STATIC_INLINE uint32_t USART_IntGetEnabled(USART_TypeDef *usart)
 __STATIC_INLINE void USART_IntSet(USART_TypeDef *usart, uint32_t flags)
 {
   usart->IFS = flags;
+}
+
+
+/***************************************************************************//**
+ * @brief
+ *   Get USART STATUS register.
+ *
+ * @param[in] usart
+ *   Pointer to USART/UART peripheral register block.
+ *
+ * @return
+ *  STATUS register value.
+ *
+ ******************************************************************************/
+static __INLINE uint32_t USART_StatusGet(USART_TypeDef *usart)
+{
+  return usart->STATUS;
 }
 
 void USART_Reset(USART_TypeDef *usart);

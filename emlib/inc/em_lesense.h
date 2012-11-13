@@ -2,7 +2,7 @@
  * @file
  * @brief Low Energy Sensor (LESENSE) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -33,7 +33,7 @@
 #ifndef __EM_LESENSE_H
 #define __EM_LESENSE_H
 
-#include "em_part.h"
+#include "em_device.h"
 
 #if defined(LESENSE_COUNT) && (LESENSE_COUNT > 0)
 #include <stdint.h>
@@ -521,7 +521,10 @@ typedef struct
 } LESENSE_TimeCtrlDesc_TypeDef;
 
 /** Default configuration for LESENSE_TimeCtrlDesc_TypeDef structure. */
-#define LESENSE_TIMECTRL_DESC_DEFAULT    0U
+#define LESENSE_TIMECTRL_DESC_DEFAULT     \
+  {                                       \
+    0U /* No sensor interaction delay. */ \
+  }
 
 
 /** LESENSE peripheral control descriptor structure. */

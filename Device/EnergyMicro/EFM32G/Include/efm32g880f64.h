@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M3 Peripheral Access Layer Header File
  *        for EFM EFM32G880F64
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -114,6 +114,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GECKO_FAMILY    1 /**< Gecko EFM32G MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32G880F64)
@@ -364,7 +365,7 @@ typedef enum IRQn
 #include "efm32g_uart.h"
 
 /**************************************************************************//**
- * @defgroup EFM32G880F64_UNLOCK Unlock Codes
+ * @defgroup EFM32G880F64_UNLOCK EFM32G880F64 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

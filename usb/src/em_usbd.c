@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, device API.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE )
@@ -83,7 +83,7 @@ void USBD_AbortAllTransfers( void )
  * @param[in] epAddr
  *   The address of the endpoint to abort.
  ******************************************************************************/
-int USBD_AbortTransfer( uint8_t epAddr )
+int USBD_AbortTransfer( int epAddr )
 {
   USB_XferCompleteCb_TypeDef callback;
   USBD_Ep_TypeDef *ep = USBD_GetEpFromAddr( epAddr );
@@ -159,6 +159,33 @@ void USBD_Disconnect( void )
   INT_Disable();
   USBDHAL_Disconnect();
   INT_Enable();
+}
+
+/***************************************************************************//**
+ * @brief
+ *   Check if an endpoint is busy doing a transfer.
+ *
+ * @param[in] epAddr
+ *   The address of the endpoint to check.
+ *
+ * @return
+ *   True if endpoint is busy, false otherwise.
+ ******************************************************************************/
+bool USBD_EpIsBusy( int epAddr )
+{
+  USBD_Ep_TypeDef *ep = USBD_GetEpFromAddr( epAddr );
+
+  if ( ep == NULL )
+  {
+    DEBUG_USB_API_PUTS( "\nUSBD_EpIsBusy(), Illegal endpoint" );
+    EFM_ASSERT( false );
+    return USB_STATUS_ILLEGAL;
+  }
+
+  if ( ep->state == D_EP_IDLE )
+    return false;
+
+  return true;
 }
 
 /***************************************************************************//**
@@ -382,8 +409,8 @@ int USBD_Init( const USBD_Init_TypeDef *p )
   INT_Disable();
 
   /* Enable USB clock */
-  CMU->CMD = CMU_CMD_USBCCLKSEL_HFCLKNODIV;
   CMU->HFCORECLKEN0 |= CMU_HFCORECLKEN0_USB | CMU_HFCORECLKEN0_USBC;
+  CMU_ClockSelectSet( cmuClock_USBC, cmuSelect_HFCLK );
 
   USBHAL_DisableGlobalInt();
 
@@ -568,7 +595,7 @@ int USBD_RemoteWakeup( void )
 bool USBD_SafeToEnterEM2( void )
 {
 #if ( USB_PWRSAVE_MODE )
-  return USBD_PoweredDown ? true : false;
+  return USBD_poweredDown ? true : false;
 #else
   return false;
 #endif
@@ -885,6 +912,9 @@ int USBD_Write( int epAddr, void *data, int byteCount,
     between @htmlonly USBD_Disconnect() and USBD_Connect() @endhtmlonly
     to allow the USB host to unload the currently active device driver.
 
+  @ref USBD_EpIsBusy() @n
+    Check if an endpoint is busy.
+
   @ref USBD_StallEp(), @ref USBD_UnStallEp() @n
     These functions stalls or un-stalls an endpoint. This functionality may not
     be needed by your application, but the USB device stack use them in response
@@ -999,7 +1029,12 @@ int USBD_Write( int epAddr, void *data, int byteCount,
 
 // Define a function for transmitting a single char on the serial port.
 extern int RETARGET_WriteChar(char c);
-#define USER_PUTCHAR  RETARGET_WriteChar @endverbatim
+#define USER_PUTCHAR  RETARGET_WriteChar
+
+#define USB_TIMER USB_TIMERn  // Select which hardware timer the USB stack
+                              // is allowed to use. Valid values are n=0,1,2...
+                              // corresponding to TIMER0, TIMER1, ...
+                              // If not specified, TIMER0 is used @endverbatim
 
   @n You are strongly encouraged to start application development with DEBUG_USB_API
   turned on. When DEBUG_USB_API is turned on and USER_PUTCHAR is defined, useful

@@ -1,4 +1,12 @@
 ================ Revision history ============================================
+3.0.2:
+- Bugfix: USBD_Init() may now be called when USB peripheral is in partial
+  powerdown mode.
+- New function USBD_EpIsBusy( int epAddr ) added to API.
+- Changed USBD_AbortTransfer() from USBD_AbortTransfer( uint8_t ) to
+  USBD_AbortTransfer( int ).
+- Added configuration of which hw TIMER the stack will use.
+
 3.0.1:
 - USBD_Stop() now disables all USB related interrupts correctly.
 - Minor documentation changes.

@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library, USB host peripheral interrupt handlers.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_HOST )
@@ -584,7 +584,7 @@ static void Handle_USB_GINTSTS_DISCONNINT( void )
   USB->GINTSTS = USB_GINTSTS_DISCONNINT;
   USB->HAINTMSK = 0;
 
-  USBH_PortStatus = H_PORT_DISCONNECTED;
+  USBH_portStatus = H_PORT_DISCONNECTED;
   USBTIMER_Stop( HOSTPORT_TIMER_INDEX );
   USBHHAL_PortReset( false );
 
@@ -672,7 +672,7 @@ static void PortResetComplete( void )
   }
   else
   {
-    USBH_PortStatus = H_PORT_DISCONNECTED;
+    USBH_portStatus = H_PORT_DISCONNECTED;
   }
   USBHHAL_PortReset( false );
 }
@@ -706,15 +706,15 @@ static void PortDebounceComplete( void )
                   ( 1 << _USB_HCFG_FSLSPCLKSEL_SHIFT        );
     }
 
-    USBH_PortStatus = H_PORT_CONNECTED_RESETTING;
+    USBH_portStatus = H_PORT_CONNECTED_RESETTING;
     USBTIMER_Start( HOSTPORT_TIMER_INDEX,
-                    USBH_AttachTiming[ USBH_AttachRetryCount ].resetTime,
+                    USBH_attachTiming[ USBH_attachRetryCount ].resetTime,
                     PortResetComplete );
     USBHHAL_PortReset( true );
   }
   else
   {
-    USBH_PortStatus = H_PORT_DISCONNECTED;
+    USBH_portStatus = H_PORT_DISCONNECTED;
   }
 }
 
@@ -729,7 +729,7 @@ static void Handle_USB_GINTSTS_PRTINT( void )
 
   DEBUG_USB_INT_LO_PUTCHAR( '^' );
 
-  switch ( USBH_PortStatus )
+  switch ( USBH_portStatus )
   {
     case H_PORT_DISCONNECTED:
     /***********************/
@@ -737,9 +737,9 @@ static void Handle_USB_GINTSTS_PRTINT( void )
            ( hprt & USB_HPRT_PRTCONNSTS )    )    /* Any device connected ? */
       {
         DEBUG_USB_INT_LO_PUTCHAR( '2' );
-        USBH_PortStatus = H_PORT_CONNECTED_DEBOUNCING;
+        USBH_portStatus = H_PORT_CONNECTED_DEBOUNCING;
         USBTIMER_Start( HOSTPORT_TIMER_INDEX,
-                        USBH_AttachTiming[ USBH_AttachRetryCount ].debounceTime,
+                        USBH_attachTiming[ USBH_attachRetryCount ].debounceTime,
                         PortDebounceComplete );
       }
       break;
@@ -756,7 +756,7 @@ static void Handle_USB_GINTSTS_PRTINT( void )
            ( hprt & USB_HPRT_PRTCONNSTS )    )  /* Device still connected ? */
       {
         DEBUG_USB_INT_LO_PUTCHAR( '6' );
-        USBH_PortStatus = H_PORT_CONNECTED;
+        USBH_portStatus = H_PORT_CONNECTED;
       }
       break;
 
@@ -774,7 +774,7 @@ static void Handle_USB_GINTSTS_PRTINT( void )
           USBHHAL_PortReset( false );
           USBHHAL_VbusOn( false );
           USBTIMER_Stop( HOSTPORT_TIMER_INDEX );
-          USBH_PortStatus = H_PORT_OVERCURRENT;
+          USBH_portStatus = H_PORT_OVERCURRENT;
         }
 #endif
       }

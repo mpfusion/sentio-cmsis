@@ -2,7 +2,7 @@
  * @file
  * @brief efm32gg_usb Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -246,7 +246,7 @@ typedef struct
 
 /* Bit fields for USB IF */
 #define _USB_IF_RESETVALUE                         0x00000003UL                   /**< Default value for USB_IF */
-#define _USB_IF_MASK                               0x00000007UL                   /**< Mask for USB_IF */
+#define _USB_IF_MASK                               0x00000003UL                   /**< Mask for USB_IF */
 #define USB_IF_VREGOSH                             (0x1UL << 0)                   /**< VREGO Sense High Interrupt Flag */
 #define _USB_IF_VREGOSH_SHIFT                      0                              /**< Shift value for USB_VREGOSH */
 #define _USB_IF_VREGOSH_MASK                       0x1UL                          /**< Bit mask for USB_VREGOSH */
@@ -260,7 +260,7 @@ typedef struct
 
 /* Bit fields for USB IFS */
 #define _USB_IFS_RESETVALUE                        0x00000000UL                    /**< Default value for USB_IFS */
-#define _USB_IFS_MASK                              0x00000007UL                    /**< Mask for USB_IFS */
+#define _USB_IFS_MASK                              0x00000003UL                    /**< Mask for USB_IFS */
 #define USB_IFS_VREGOSH                            (0x1UL << 0)                    /**< Set VREGO Sense High Interrupt Flag */
 #define _USB_IFS_VREGOSH_SHIFT                     0                               /**< Shift value for USB_VREGOSH */
 #define _USB_IFS_VREGOSH_MASK                      0x1UL                           /**< Bit mask for USB_VREGOSH */
@@ -274,7 +274,7 @@ typedef struct
 
 /* Bit fields for USB IFC */
 #define _USB_IFC_RESETVALUE                        0x00000000UL                    /**< Default value for USB_IFC */
-#define _USB_IFC_MASK                              0x00000007UL                    /**< Mask for USB_IFC */
+#define _USB_IFC_MASK                              0x00000003UL                    /**< Mask for USB_IFC */
 #define USB_IFC_VREGOSH                            (0x1UL << 0)                    /**< Clear VREGO Sense High Interrupt Flag */
 #define _USB_IFC_VREGOSH_SHIFT                     0                               /**< Shift value for USB_VREGOSH */
 #define _USB_IFC_VREGOSH_MASK                      0x1UL                           /**< Bit mask for USB_VREGOSH */
@@ -288,7 +288,7 @@ typedef struct
 
 /* Bit fields for USB IEN */
 #define _USB_IEN_RESETVALUE                        0x00000000UL                    /**< Default value for USB_IEN */
-#define _USB_IEN_MASK                              0x00000007UL                    /**< Mask for USB_IEN */
+#define _USB_IEN_MASK                              0x00000003UL                    /**< Mask for USB_IEN */
 #define USB_IEN_VREGOSH                            (0x1UL << 0)                    /**< VREGO Sense High Interrupt Enable */
 #define _USB_IEN_VREGOSH_SHIFT                     0                               /**< Shift value for USB_VREGOSH */
 #define _USB_IEN_VREGOSH_MASK                      0x1UL                           /**< Bit mask for USB_VREGOSH */
@@ -512,7 +512,7 @@ typedef struct
 
 /* Bit fields for USB GUSBCFG */
 #define _USB_GUSBCFG_RESETVALUE                    0x00001440UL                                /**< Default value for USB_GUSBCFG */
-#define _USB_GUSBCFG_MASK                          0xF0403F6FUL                                /**< Mask for USB_GUSBCFG */
+#define _USB_GUSBCFG_MASK                          0xF0403F27UL                                /**< Mask for USB_GUSBCFG */
 #define _USB_GUSBCFG_TOUTCAL_SHIFT                 0                                           /**< Shift value for USB_TOUTCAL */
 #define _USB_GUSBCFG_TOUTCAL_MASK                  0x7UL                                       /**< Bit mask for USB_TOUTCAL */
 #define _USB_GUSBCFG_TOUTCAL_DEFAULT               0x00000000UL                                /**< Mode DEFAULT for USB_GUSBCFG */
@@ -622,7 +622,7 @@ typedef struct
 
 /* Bit fields for USB GINTSTS */
 #define _USB_GINTSTS_RESETVALUE                    0x14000020UL                              /**< Default value for USB_GINTSTS */
-#define _USB_GINTSTS_MASK                          0xF7FE7CFFUL                              /**< Mask for USB_GINTSTS */
+#define _USB_GINTSTS_MASK                          0xF7FC7CFFUL                              /**< Mask for USB_GINTSTS */
 #define USB_GINTSTS_CURMOD                         (0x1UL << 0)                              /**< Current Mode of Operation (host and device) */
 #define _USB_GINTSTS_CURMOD_SHIFT                  0                                         /**< Shift value for USB_CURMOD */
 #define _USB_GINTSTS_CURMOD_MASK                   0x1UL                                     /**< Bit mask for USB_CURMOD */
@@ -760,7 +760,7 @@ typedef struct
 
 /* Bit fields for USB GINTMSK */
 #define _USB_GINTMSK_RESETVALUE                    0x00000000UL                                 /**< Default value for USB_GINTMSK */
-#define _USB_GINTMSK_MASK                          0xF7FEFCFEUL                                 /**< Mask for USB_GINTMSK */
+#define _USB_GINTMSK_MASK                          0xF7FC7CFEUL                                 /**< Mask for USB_GINTMSK */
 #define USB_GINTMSK_MODEMISMSK                     (0x1UL << 1)                                 /**< Mode Mismatch Interrupt Mask (host and device) */
 #define _USB_GINTMSK_MODEMISMSK_SHIFT              1                                            /**< Shift value for USB_MODEMISMSK */
 #define _USB_GINTMSK_MODEMISMSK_MASK               0x2UL                                        /**< Bit mask for USB_MODEMISMSK */
@@ -1113,7 +1113,7 @@ typedef struct
 
 /* Bit fields for USB HCFG */
 #define _USB_HCFG_RESETVALUE                       0x00200000UL                          /**< Default value for USB_HCFG */
-#define _USB_HCFG_MASK                             0x8020FF87UL                          /**< Mask for USB_HCFG */
+#define _USB_HCFG_MASK                             0x8000FF87UL                          /**< Mask for USB_HCFG */
 #define _USB_HCFG_FSLSPCLKSEL_SHIFT                0                                     /**< Shift value for USB_FSLSPCLKSEL */
 #define _USB_HCFG_FSLSPCLKSEL_MASK                 0x3UL                                 /**< Bit mask for USB_FSLSPCLKSEL */
 #define _USB_HCFG_FSLSPCLKSEL_DEFAULT              0x00000000UL                          /**< Mode DEFAULT for USB_HCFG */
@@ -1358,7 +1358,7 @@ typedef struct
 
 /* Bit fields for USB HC_INT */
 #define _USB_HC_INT_RESETVALUE                     0x00000000UL                           /**< Default value for USB_HC_INT */
-#define _USB_HC_INT_MASK                           0x000007FFUL                           /**< Mask for USB_HC_INT */
+#define _USB_HC_INT_MASK                           0x000007BFUL                           /**< Mask for USB_HC_INT */
 #define USB_HC_INT_XFERCOMPL                       (0x1UL << 0)                           /**< Transfer Completed */
 #define _USB_HC_INT_XFERCOMPL_SHIFT                0                                      /**< Shift value for USB_XFERCOMPL */
 #define _USB_HC_INT_XFERCOMPL_MASK                 0x1UL                                  /**< Bit mask for USB_XFERCOMPL */
@@ -1412,7 +1412,7 @@ typedef struct
 
 /* Bit fields for USB HC_INTMSK */
 #define _USB_HC_INTMSK_RESETVALUE                  0x00000000UL                                 /**< Default value for USB_HC_INTMSK */
-#define _USB_HC_INTMSK_MASK                        0x000007FFUL                                 /**< Mask for USB_HC_INTMSK */
+#define _USB_HC_INTMSK_MASK                        0x000007BFUL                                 /**< Mask for USB_HC_INTMSK */
 #define USB_HC_INTMSK_XFERCOMPLMSK                 (0x1UL << 0)                                 /**< Transfer Completed Mask */
 #define _USB_HC_INTMSK_XFERCOMPLMSK_SHIFT          0                                            /**< Shift value for USB_XFERCOMPLMSK */
 #define _USB_HC_INTMSK_XFERCOMPLMSK_MASK           0x1UL                                        /**< Bit mask for USB_XFERCOMPLMSK */
@@ -1466,7 +1466,7 @@ typedef struct
 
 /* Bit fields for USB HC_TSIZ */
 #define _USB_HC_TSIZ_RESETVALUE                    0x00000000UL                         /**< Default value for USB_HC_TSIZ */
-#define _USB_HC_TSIZ_MASK                          0xFFFFFFFFUL                         /**< Mask for USB_HC_TSIZ */
+#define _USB_HC_TSIZ_MASK                          0x7FFFFFFFUL                         /**< Mask for USB_HC_TSIZ */
 #define _USB_HC_TSIZ_XFERSIZE_SHIFT                0                                    /**< Shift value for USB_XFERSIZE */
 #define _USB_HC_TSIZ_XFERSIZE_MASK                 0x7FFFFUL                            /**< Bit mask for USB_XFERSIZE */
 #define _USB_HC_TSIZ_XFERSIZE_DEFAULT              0x00000000UL                         /**< Mode DEFAULT for USB_HC_TSIZ */
@@ -1498,7 +1498,7 @@ typedef struct
 
 /* Bit fields for USB DCFG */
 #define _USB_DCFG_RESETVALUE                       0x08200000UL                          /**< Default value for USB_DCFG */
-#define _USB_DCFG_MASK                             0xFF203FFFUL                          /**< Mask for USB_DCFG */
+#define _USB_DCFG_MASK                             0xFC001FFFUL                          /**< Mask for USB_DCFG */
 #define _USB_DCFG_DEVSPD_SHIFT                     0                                     /**< Shift value for USB_DEVSPD */
 #define _USB_DCFG_DEVSPD_MASK                      0x3UL                                 /**< Bit mask for USB_DEVSPD */
 #define _USB_DCFG_DEVSPD_DEFAULT                   0x00000000UL                          /**< Mode DEFAULT for USB_DCFG */
@@ -1641,7 +1641,7 @@ typedef struct
 
 /* Bit fields for USB DIEPMSK */
 #define _USB_DIEPMSK_RESETVALUE                    0x00000000UL                               /**< Default value for USB_DIEPMSK */
-#define _USB_DIEPMSK_MASK                          0x0000217FUL                               /**< Mask for USB_DIEPMSK */
+#define _USB_DIEPMSK_MASK                          0x0000215FUL                               /**< Mask for USB_DIEPMSK */
 #define USB_DIEPMSK_XFERCOMPLMSK                   (0x1UL << 0)                               /**< Transfer Completed Interrupt Mask */
 #define _USB_DIEPMSK_XFERCOMPLMSK_SHIFT            0                                          /**< Shift value for USB_XFERCOMPLMSK */
 #define _USB_DIEPMSK_XFERCOMPLMSK_MASK             0x1UL                                      /**< Bit mask for USB_XFERCOMPLMSK */
@@ -1685,7 +1685,7 @@ typedef struct
 
 /* Bit fields for USB DOEPMSK */
 #define _USB_DOEPMSK_RESETVALUE                    0x00000000UL                               /**< Default value for USB_DOEPMSK */
-#define _USB_DOEPMSK_MASK                          0x0000715FUL                               /**< Mask for USB_DOEPMSK */
+#define _USB_DOEPMSK_MASK                          0x0000315FUL                               /**< Mask for USB_DOEPMSK */
 #define USB_DOEPMSK_XFERCOMPLMSK                   (0x1UL << 0)                               /**< Transfer Completed Interrupt Mask */
 #define _USB_DOEPMSK_XFERCOMPLMSK_SHIFT            0                                          /**< Shift value for USB_XFERCOMPLMSK */
 #define _USB_DOEPMSK_XFERCOMPLMSK_MASK             0x1UL                                      /**< Bit mask for USB_XFERCOMPLMSK */
@@ -1965,7 +1965,7 @@ typedef struct
 
 /* Bit fields for USB DIEP0INT */
 #define _USB_DIEP0INT_RESETVALUE                   0x00000080UL                             /**< Default value for USB_DIEP0INT */
-#define _USB_DIEP0INT_MASK                         0x00007AFFUL                             /**< Mask for USB_DIEP0INT */
+#define _USB_DIEP0INT_MASK                         0x000038DFUL                             /**< Mask for USB_DIEP0INT */
 #define USB_DIEP0INT_XFERCOMPL                     (0x1UL << 0)                             /**< Transfer Completed Interrupt */
 #define _USB_DIEP0INT_XFERCOMPL_SHIFT              0                                        /**< Shift value for USB_XFERCOMPL */
 #define _USB_DIEP0INT_XFERCOMPL_MASK               0x1UL                                    /**< Bit mask for USB_XFERCOMPL */
@@ -2125,7 +2125,7 @@ typedef struct
 
 /* Bit fields for USB DIEP_INT */
 #define _USB_DIEP_INT_RESETVALUE                   0x00000080UL                             /**< Default value for USB_DIEP_INT */
-#define _USB_DIEP_INT_MASK                         0x00007AFFUL                             /**< Mask for USB_DIEP_INT */
+#define _USB_DIEP_INT_MASK                         0x000038DFUL                             /**< Mask for USB_DIEP_INT */
 #define USB_DIEP_INT_XFERCOMPL                     (0x1UL << 0)                             /**< Transfer Completed Interrupt */
 #define _USB_DIEP_INT_XFERCOMPL_SHIFT              0                                        /**< Shift value for USB_XFERCOMPL */
 #define _USB_DIEP_INT_XFERCOMPL_MASK               0x1UL                                    /**< Bit mask for USB_XFERCOMPL */
@@ -2271,7 +2271,7 @@ typedef struct
 
 /* Bit fields for USB DOEP0INT */
 #define _USB_DOEP0INT_RESETVALUE                   0x00000000UL                                /**< Default value for USB_DOEP0INT */
-#define _USB_DOEP0INT_MASK                         0x00007A7FUL                                /**< Mask for USB_DOEP0INT */
+#define _USB_DOEP0INT_MASK                         0x0000385FUL                                /**< Mask for USB_DOEP0INT */
 #define USB_DOEP0INT_XFERCOMPL                     (0x1UL << 0)                                /**< Transfer Completed Interrupt */
 #define _USB_DOEP0INT_XFERCOMPL_SHIFT              0                                           /**< Shift value for USB_XFERCOMPL */
 #define _USB_DOEP0INT_XFERCOMPL_MASK               0x1UL                                       /**< Bit mask for USB_XFERCOMPL */
@@ -2424,7 +2424,7 @@ typedef struct
 
 /* Bit fields for USB DOEP_INT */
 #define _USB_DOEP_INT_RESETVALUE                   0x00000000UL                                /**< Default value for USB_DOEP_INT */
-#define _USB_DOEP_INT_MASK                         0x00007A7FUL                                /**< Mask for USB_DOEP_INT */
+#define _USB_DOEP_INT_MASK                         0x0000385FUL                                /**< Mask for USB_DOEP_INT */
 #define USB_DOEP_INT_XFERCOMPL                     (0x1UL << 0)                                /**< Transfer Completed Interrupt */
 #define _USB_DOEP_INT_XFERCOMPL_SHIFT              0                                           /**< Shift value for USB_XFERCOMPL */
 #define _USB_DOEP_INT_XFERCOMPL_MASK               0x1UL                                       /**< Bit mask for USB_XFERCOMPL */
@@ -2505,7 +2505,7 @@ typedef struct
 
 /* Bit fields for USB PCGCCTL */
 #define _USB_PCGCCTL_RESETVALUE                    0x00000000UL                               /**< Default value for USB_PCGCCTL */
-#define _USB_PCGCCTL_MASK                          0x000001CFUL                               /**< Mask for USB_PCGCCTL */
+#define _USB_PCGCCTL_MASK                          0x0000014FUL                               /**< Mask for USB_PCGCCTL */
 #define USB_PCGCCTL_STOPPCLK                       (0x1UL << 0)                               /**< Stop PHY clock */
 #define _USB_PCGCCTL_STOPPCLK_SHIFT                0                                          /**< Shift value for USB_STOPPCLK */
 #define _USB_PCGCCTL_STOPPCLK_MASK                 0x1UL                                      /**< Bit mask for USB_STOPPCLK */

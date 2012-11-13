@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M Peripheral Access Layer Header File
  *        for EFM32GG980F1024
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -123,6 +123,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_GIANT_FAMILY    1 /**< Giant/Leopard Gecko EFM32LG/GG MCU Family */
+#define _EFM_DEVICE              /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32GG980F1024)
@@ -422,7 +423,7 @@ typedef enum IRQn
 #include "efm32gg_uart.h"
 
 /**************************************************************************//**
- * @defgroup EFM32GG980F1024_UNLOCK Unlock Codes
+ * @defgroup EFM32GG980F1024_UNLOCK EFM32GG980F1024 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

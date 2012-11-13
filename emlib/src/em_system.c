@@ -2,7 +2,7 @@
  * @file
  * @brief System Peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -30,7 +30,7 @@
  * arising from your use of this Software.
  *
  ******************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #include "em_system.h"
 #include "em_assert.h"
 

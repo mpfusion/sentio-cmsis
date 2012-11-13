@@ -2,7 +2,7 @@
  * @file
  * @brief Clock management unit (CMU) API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -34,7 +34,7 @@
 #define __EM_CMU_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 #include "em_bitband.h"
 
 #ifdef __cplusplus
@@ -59,7 +59,7 @@ extern "C" {
 #define CMU_LFACLKSEL_REG          2
 #define CMU_LFBCLKSEL_REG          3
 #define CMU_DBGCLKSEL_REG          4
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 #define CMU_USBCCLKSEL_REG         5
 #endif
 
@@ -72,7 +72,7 @@ extern "C" {
 #define CMU_HFCORECLKDIV_REG       2
 #define CMU_LFAPRESC0_REG          3
 #define CMU_LFBPRESC0_REG          4
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 #define CMU_HFCLKDIV_REG           5
 #endif
 #define CMU_DIV_REG_POS            4
@@ -159,7 +159,7 @@ typedef enum
 } CMU_HFRCOBand_TypeDef;
 
 
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)  
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** AUX High frequency RC bands. */
 typedef enum
 {
@@ -186,7 +186,7 @@ typedef enum
   /*******************/
 
   /** High frequency clock */
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   cmuClock_HF = (CMU_HFCLKDIV_REG << CMU_DIV_REG_POS) |
                 (CMU_HFCLKSEL_REG << CMU_SEL_REG_POS) |
                 (CMU_NO_EN_REG << CMU_EN_REG_POS) |
@@ -570,7 +570,7 @@ typedef enum
   cmuOsc_HFXO,     /**< High frequency crystal oscillator. */
   cmuOsc_HFRCO,    /**< High frequency RC oscillator. */
   cmuOsc_AUXHFRCO, /**< Auxiliary high frequency RC oscillator. */
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   cmuOsc_ULFRCO    /**< Ultra low frequency RC oscillator. */
 #endif
 } CMU_Osc_TypeDef;
@@ -588,7 +588,7 @@ typedef enum
   cmuSelect_CORELEDIV2, /**< Core low energy clock divided by 2. */
   cmuSelect_AUXHFRCO,   /**< Auxilliary clock source can be used for debug clock */
   cmuSelect_HFCLK,      /**< Divided HFCLK on Giant for debug clock, undivided on Tiny Gecko and for USBC (not used on Gecko) */
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   cmuSelect_ULFRCO,     /**< Ultra low frequency RC oscillator. */
 #endif
 } CMU_Select_TypeDef;
@@ -607,7 +607,7 @@ void CMU_ClockSelectSet(CMU_Clock_TypeDef clock, CMU_Select_TypeDef ref);
 
 CMU_HFRCOBand_TypeDef CMU_HFRCOBandGet(void);
 void CMU_HFRCOBandSet(CMU_HFRCOBand_TypeDef band);
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 CMU_AUXHFRCOBand_TypeDef CMU_AUXHFRCOBandGet(void);
 void CMU_AUXHFRCOBandSet(CMU_AUXHFRCOBand_TypeDef band);
 #endif
@@ -777,7 +777,7 @@ __STATIC_INLINE uint32_t CMU_CalibrateCountGet(void)
 {
   /* Wait until calibration completes, UNLESS continuous calibration mode is  */
   /* active */
-#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
   if (!(CMU->CALCTRL & CMU_CALCTRL_CONT))
   {
     while (CMU->STATUS & CMU_STATUS_CALBSY)
@@ -804,7 +804,7 @@ __STATIC_INLINE void CMU_CalibrateStart(void)
 }
 
 
-#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /***************************************************************************//**
  * @brief
  *   Stop the calibration counters

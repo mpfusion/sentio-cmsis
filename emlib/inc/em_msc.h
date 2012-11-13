@@ -2,7 +2,7 @@
  * @file
  * @brief Flash controller module (MSC) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -40,7 +40,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "em_part.h"
+#include "em_device.h"
 #include "em_bitband.h"
 
 
@@ -86,9 +86,9 @@ typedef enum
 } msc_Return_TypeDef;
 
 
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /** Strategy for prioritized bus access */
-typedef enum { 
+typedef enum {
   mscBusStrategyCPU = MSC_READCTRL_BUSSTRATEGY_CPU, /**< Prioritize CPU bus accesses */
   mscBusStrategyDMA = MSC_READCTRL_BUSSTRATEGY_DMA, /**< Prioritize DMA bus accesses */
   mscBusStrategyDMAEM1 = MSC_READCTRL_BUSSTRATEGY_DMAEM1, /**< Prioritize DMAEM1 for bus accesses */
@@ -180,7 +180,7 @@ __STATIC_INLINE void MSC_IntSet(uint32_t flags)
 }
 
 
-#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_TINY_FAMILY) || defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /***************************************************************************//**
  * @brief
  *   Starts measuring cache hit ratio.
@@ -316,7 +316,7 @@ __STATIC_INLINE void MSC_EnableAutoCacheFlush(bool enable)
 #endif
 
 
-#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined(_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 /***************************************************************************//**
  * @brief
  *   Configure which unit should get priority on system bus.
@@ -332,7 +332,7 @@ __STATIC_INLINE void MSC_BusStrategy(mscBusStrategy_Typedef mode)
 #ifdef __CC_ARM  /* MDK-ARM compiler */
 msc_Return_TypeDef MSC_WriteWord(uint32_t *address, void const *data, int numBytes);
 msc_Return_TypeDef MSC_ErasePage(uint32_t *startAddress);
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 msc_Return_TypeDef MSC_MassErase(void);
 #endif
 #endif /* __CC_ARM */
@@ -340,7 +340,7 @@ msc_Return_TypeDef MSC_MassErase(void);
 #ifdef __ICCARM__ /* IAR compiler */
 __ramfunc msc_Return_TypeDef MSC_WriteWord(uint32_t *address, void const *data, int numBytes);
 __ramfunc msc_Return_TypeDef MSC_ErasePage(uint32_t *startAddress);
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 __ramfunc msc_Return_TypeDef MSC_MassErase(void);
 #endif
 #endif /* __ICCARM__ */
@@ -349,13 +349,13 @@ __ramfunc msc_Return_TypeDef MSC_MassErase(void);
 #ifdef __CROSSWORKS_ARM  /* Rowley Crossworks */
 msc_Return_TypeDef MSC_WriteWord(uint32_t *address, void const *data, int numBytes) __attribute__ ((section(".fast")));
 msc_Return_TypeDef MSC_ErasePage(uint32_t *startAddress) __attribute__ ((section(".fast")));
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 msc_Return_TypeDef MSC_MassErase(void) __attribute__ ((section(".fast")));
 #endif
 #else /* Sourcery G++ */
 msc_Return_TypeDef MSC_WriteWord(uint32_t *address, void const *data, int numBytes) __attribute__ ((section(".ram")));
 msc_Return_TypeDef MSC_ErasePage(uint32_t *startAddress) __attribute__ ((section(".ram")));
-#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY) 
+#if defined (_EFM32_GIANT_FAMILY) || defined(_EFM32_WONDER_FAMILY)
 msc_Return_TypeDef MSC_MassErase(void) __attribute__ ((section(".ram")));
 #endif
 

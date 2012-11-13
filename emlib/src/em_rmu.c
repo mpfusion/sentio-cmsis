@@ -3,7 +3,7 @@
  * @brief Reset Management Unit (RMU) peripheral module peripheral API
  *
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>

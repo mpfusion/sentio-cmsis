@@ -2,7 +2,7 @@
  * @file
  * @brief CMSIS Compatible EFM32TG startup file in C for IAR EWARM
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -30,6 +30,8 @@
  * arising from your use of this Software.
  *
  *****************************************************************************/
+#include "em_device.h"        /* The correct device header file. */
+
 #pragma language=extended
 #pragma segment="CSTACK"
 

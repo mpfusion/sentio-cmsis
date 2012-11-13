@@ -2,7 +2,7 @@
  * @file
  * @brief efm32g_dac Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -59,7 +59,7 @@ typedef struct
 
 /* Bit fields for DAC CTRL */
 #define _DAC_CTRL_RESETVALUE              0x00000010UL                         /**< Default value for DAC_CTRL */
-#define _DAC_CTRL_MASK                    0x0037D3FFUL                         /**< Mask for DAC_CTRL */
+#define _DAC_CTRL_MASK                    0x003703FFUL                         /**< Mask for DAC_CTRL */
 #define DAC_CTRL_DIFF                     (0x1UL << 0)                         /**< Differential Mode */
 #define _DAC_CTRL_DIFF_SHIFT              0                                    /**< Shift value for DAC_DIFF */
 #define _DAC_CTRL_DIFF_MASK               0x1UL                                /**< Bit mask for DAC_DIFF */

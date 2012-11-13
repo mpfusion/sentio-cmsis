@@ -77,7 +77,7 @@ The most convenient way to start a project, is to define the device target
 in your compiler options, e.g. add a -DEFM32G890F128 to your compile options
 if you are targetting an EFM32G890F128 part.
 
-Include the file "efm32.h"/"efr4.h" wherever you need register and bit field 
+Include the file "em_device.h" wherever you need register and bit field 
 definitions for the peripherals, for the MCUs/RF transceivers, after setting
 the correct include path to point at your "family".
 

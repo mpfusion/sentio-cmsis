@@ -2,7 +2,7 @@
  * @file
  * @brief Inter-integrated Circuit (I2C) Peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -30,7 +30,7 @@
  * arising from your use of this Software.
  *
  ******************************************************************************/
-#include "em_part.h"
+#include "em_device.h"
 #include "em_i2c.h"
 #include "em_cmu.h"
 #include "em_bitband.h"
@@ -233,7 +233,7 @@ void I2C_BusFreqSet(I2C_TypeDef *i2c,
   {
     refFreq = CMU_ClockFreqGet(cmuClock_HFPER);
   }
-  n = (uint32_t)(i2cNSum[(i2c->CTRL & _I2C_CTRL_CLHR_MASK) >> _I2C_CTRL_CLHR_SHIFT]);
+  n = (uint32_t)(i2cNSum[type]);
 
   div = (refFreq - (4 * freq)) / (n * freq);
   EFM_ASSERT(div);
@@ -295,7 +295,7 @@ void I2C_Init(I2C_TypeDef *i2c, const I2C_Init_TypeDef *init)
   BITBAND_Peripheral(&(i2c->CTRL),
                      _I2C_CTRL_SLAVE_SHIFT,
                      ~((unsigned int)(init->master)));
-  
+
   I2C_BusFreqSet(i2c, init->refFreq, init->freq, init->clhr);
 
   BITBAND_Peripheral(&(i2c->CTRL),

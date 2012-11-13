@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library API for EFM32.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #ifndef __EM_USBH_H
 #define __EM_USBH_H
 
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_HOST )
@@ -47,10 +47,10 @@ extern "C" {
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 
 extern USBH_Hc_TypeDef                  hcs[];
-extern int                              USBH_AttachRetryCount;
-extern const USBH_AttachTiming_TypeDef  USBH_AttachTiming[];
-extern USBH_Init_TypeDef                USBH_InitData;
-extern volatile USBH_PortState_TypeDef  USBH_PortStatus;
+extern int                              USBH_attachRetryCount;
+extern const USBH_AttachTiming_TypeDef  USBH_attachTiming[];
+extern USBH_Init_TypeDef                USBH_initData;
+extern volatile USBH_PortState_TypeDef  USBH_portStatus;
 
 USB_Status_TypeDef USBH_CtlSendSetup(   USBH_Ep_TypeDef *ep );
 USB_Status_TypeDef USBH_CtlSendData(    USBH_Ep_TypeDef *ep, uint16_t length );

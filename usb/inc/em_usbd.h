@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library API for EFM32.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #ifndef __EM_USBD_H
 #define __EM_USBD_H
 
-#include "em_part.h"
+#include "em_device.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "em_usb.h"
 #if defined( USB_DEVICE )
@@ -65,7 +65,7 @@ extern "C" {
 #endif
 
 extern USBD_Device_TypeDef *dev;
-extern volatile bool USBD_PoweredDown;
+extern volatile bool USBD_poweredDown;
 
 __STATIC_INLINE void USBD_ArmEp0( USBD_Ep_TypeDef *ep );
 __STATIC_INLINE void USBD_ArmEpN( USBD_Ep_TypeDef *ep );

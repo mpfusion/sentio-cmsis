@@ -3,7 +3,7 @@
  * @brief CMSIS Cortex-M3 Peripheral Access Layer Header File
  *        for EFM EFM32TG108F8
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -101,6 +101,7 @@ typedef enum IRQn
 
 /** Part family */
 #define _EFM32_TINY_FAMILY    1 /**< Tiny Gecko EFM32TG MCU Family */
+#define _EFM_DEVICE             /**< Energy Micro EFM-type microcontroller */
 
 /* If part number is not defined as compiler option, define it */
 #if !defined(EFM32TG108F8)
@@ -1145,7 +1146,7 @@ typedef struct
 
 /* Bit fields for CMU HFCORECLKEN0 */
 #define _CMU_HFCORECLKEN0_RESETVALUE               0x00000000UL                         /**< Default value for CMU_HFCORECLKEN0 */
-#define _CMU_HFCORECLKEN0_MASK                     0x00000007UL                         /**< Mask for CMU_HFCORECLKEN0 */
+#define _CMU_HFCORECLKEN0_MASK                     0x00000006UL                         /**< Mask for CMU_HFCORECLKEN0 */
 #define CMU_HFCORECLKEN0_DMA                       (0x1UL << 1)                         /**< Direct Memory Access Controller Clock Enable */
 #define _CMU_HFCORECLKEN0_DMA_SHIFT                1                                    /**< Shift value for CMU_DMA */
 #define _CMU_HFCORECLKEN0_DMA_MASK                 0x2UL                                /**< Bit mask for CMU_DMA */
@@ -1159,7 +1160,7 @@ typedef struct
 
 /* Bit fields for CMU HFPERCLKEN0 */
 #define _CMU_HFPERCLKEN0_RESETVALUE                0x00000000UL                           /**< Default value for CMU_HFPERCLKEN0 */
-#define _CMU_HFPERCLKEN0_MASK                      0x00000FFFUL                           /**< Mask for CMU_HFPERCLKEN0 */
+#define _CMU_HFPERCLKEN0_MASK                      0x000009FBUL                           /**< Mask for CMU_HFPERCLKEN0 */
 #define CMU_HFPERCLKEN0_ACMP0                      (0x1UL << 0)                           /**< Analog Comparator 0 Clock Enable */
 #define _CMU_HFPERCLKEN0_ACMP0_SHIFT               0                                      /**< Shift value for CMU_ACMP0 */
 #define _CMU_HFPERCLKEN0_ACMP0_MASK                0x1UL                                  /**< Bit mask for CMU_ACMP0 */
@@ -1245,7 +1246,7 @@ typedef struct
 
 /* Bit fields for CMU LFACLKEN0 */
 #define _CMU_LFACLKEN0_RESETVALUE                  0x00000000UL                           /**< Default value for CMU_LFACLKEN0 */
-#define _CMU_LFACLKEN0_MASK                        0x0000000FUL                           /**< Mask for CMU_LFACLKEN0 */
+#define _CMU_LFACLKEN0_MASK                        0x00000007UL                           /**< Mask for CMU_LFACLKEN0 */
 #define CMU_LFACLKEN0_LESENSE                      (0x1UL << 0)                           /**< Low Energy Sensor Interface Clock Enable */
 #define _CMU_LFACLKEN0_LESENSE_SHIFT               0                                      /**< Shift value for CMU_LESENSE */
 #define _CMU_LFACLKEN0_LESENSE_MASK                0x1UL                                  /**< Bit mask for CMU_LESENSE */
@@ -1273,7 +1274,7 @@ typedef struct
 
 /* Bit fields for CMU LFAPRESC0 */
 #define _CMU_LFAPRESC0_RESETVALUE                  0x00000000UL                            /**< Default value for CMU_LFAPRESC0 */
-#define _CMU_LFAPRESC0_MASK                        0x00003FF3UL                            /**< Mask for CMU_LFAPRESC0 */
+#define _CMU_LFAPRESC0_MASK                        0x00000FF3UL                            /**< Mask for CMU_LFAPRESC0 */
 #define _CMU_LFAPRESC0_LESENSE_SHIFT               0                                       /**< Shift value for CMU_LESENSE */
 #define _CMU_LFAPRESC0_LESENSE_MASK                0x3UL                                   /**< Bit mask for CMU_LESENSE */
 #define _CMU_LFAPRESC0_LESENSE_DIV1                0x00000000UL                            /**< Mode DIV1 for CMU_LFAPRESC0 */
@@ -1726,7 +1727,7 @@ typedef struct
 
 /* Bit fields for DMA STATUS */
 #define _DMA_STATUS_RESETVALUE                          0x10070000UL                          /**< Default value for DMA_STATUS */
-#define _DMA_STATUS_MASK                                0xF01F00F1UL                          /**< Mask for DMA_STATUS */
+#define _DMA_STATUS_MASK                                0x001F00F1UL                          /**< Mask for DMA_STATUS */
 #define DMA_STATUS_EN                                   (0x1UL << 0)                          /**< DMA Enable Status */
 #define _DMA_STATUS_EN_SHIFT                            0                                     /**< Shift value for DMA_EN */
 #define _DMA_STATUS_EN_MASK                             0x1UL                                 /**< Bit mask for DMA_EN */
@@ -2687,7 +2688,7 @@ typedef struct
 
 
 /**************************************************************************//**
- * @defgroup EFM32TG108F8_UNLOCK Unlock Codes
+ * @defgroup EFM32TG108F8_UNLOCK EFM32TG108F8 Unlock Codes
  * @{
  *****************************************************************************/
 #define MSC_UNLOCK_CODE      0x1B71 /**< MSC unlock code */

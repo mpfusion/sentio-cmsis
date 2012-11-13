@@ -2,7 +2,7 @@
  * @file
  * @brief USB protocol stack library API for EFM32.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -35,7 +35,7 @@
 #ifndef __EM_USB_H
 #define __EM_USB_H
 
-#include "em_part.h"
+#include "em_device.h"
 #include "em_assert.h"
 #if defined( USB_PRESENT ) && ( USB_COUNT == 1 )
 #include "usbconfig.h"
@@ -761,9 +761,10 @@ typedef struct USBD_Callbacks_TypeDef
 /*** -------------------- DEVICE mode API -------------------------------- ***/
 
 void                USBD_AbortAllTransfers( void );
-int                 USBD_AbortTransfer(     uint8_t epAddr );
+int                 USBD_AbortTransfer(     int epAddr );
 void                USBD_Connect(           void );
 void                USBD_Disconnect(        void );
+bool                USBD_EpIsBusy(          int epAddr );
 USBD_State_TypeDef  USBD_GetUsbState(       void );
 const char *        USBD_GetUsbStateName(   USBD_State_TypeDef state );
 int                 USBD_Init(              const USBD_Init_TypeDef *p );

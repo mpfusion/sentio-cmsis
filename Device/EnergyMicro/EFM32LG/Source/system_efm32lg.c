@@ -2,7 +2,7 @@
  * @file
  * @brief CMSIS Cortex-M3 System Layer for EFM32LG devices.
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -32,7 +32,7 @@
  ******************************************************************************/
 
 #include <stdint.h>
-#include "efm32.h"
+#include "em_device.h"
 
 /*******************************************************************************
  ******************************   DEFINES   ************************************
@@ -80,6 +80,12 @@ static uint32_t SystemLFXOClock = EFM32_LFXO_FREQ;
 /** @endcond (DO_NOT_INCLUDE_WITH_DOXYGEN) */
 #endif
 
+/* Inline function to get the chip's Production Revision. */
+__STATIC_INLINE uint8_t GetProdRev(void)
+{
+  return ((DEVINFO->PART & _DEVINFO_PART_PROD_REV_MASK)
+                         >> _DEVINFO_PART_PROD_REV_SHIFT);
+}
 
 /*******************************************************************************
  **************************   GLOBAL VARIABLES   *******************************
@@ -195,11 +201,17 @@ uint32_t SystemHFClockGet(void)
         break;
 
       case CMU_HFRCOCTRL_BAND_7MHZ:
-        ret = 7000000;
+        if ( GetProdRev() >= 19 )
+          ret = 6600000;
+        else
+          ret = 7000000;
         break;
 
       case CMU_HFRCOCTRL_BAND_1MHZ:
-        ret = 1000000;
+        if ( GetProdRev() >= 19 )
+          ret = 1200000;
+        else
+          ret = 1000000;
         break;
 
       default:

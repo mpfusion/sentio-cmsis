@@ -2,7 +2,7 @@
  * @file
  * @brief Backup Real Time Counter (BURTC) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  *******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -34,7 +34,7 @@
 #define __EM_BURTC_H
 
 #include <stdbool.h>
-#include "em_part.h"
+#include "em_device.h"
 
 #if defined(BURTC_PRESENT)
 
@@ -289,8 +289,8 @@ __STATIC_INLINE void BURTC_Enable(bool enable)
   if( enable )
   {
     BITBAND_Peripheral(&BURTC->CTRL, _BURTC_CTRL_RSTEN_SHIFT, 0);
-  } 
-  else 
+  }
+  else
   {
     BITBAND_Peripheral(&BURTC->CTRL, _BURTC_CTRL_RSTEN_SHIFT, 1);
   }

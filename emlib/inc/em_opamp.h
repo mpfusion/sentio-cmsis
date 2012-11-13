@@ -2,7 +2,7 @@
  * @file
  * @brief Operational Amplifier (OPAMP) peripheral API
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -29,11 +29,11 @@
  * special damages, or any other relief, or for any claim by any third party,
  * arising from your use of this Software.
  *
- *****************************************************************************/
+ ******************************************************************************/
 #ifndef __EM_OPAMP_H
 #define __EM_OPAMP_H
 
-#include "em_part.h"
+#include "em_device.h"
 #if defined(OPAMP_PRESENT) && (OPAMP_COUNT == 1)
 
 #ifdef __cplusplus

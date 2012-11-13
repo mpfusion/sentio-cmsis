@@ -2,7 +2,7 @@
  * @file
  * @brief efm32gg_ebi Register and Bit Field definitions
  * @author Energy Micro AS
- * @version 3.0.1
+ * @version 3.0.2
  ******************************************************************************
  * @section License
  * <b>(C) Copyright 2012 Energy Micro AS, http://www.energymicro.com</b>
@@ -88,7 +88,7 @@ typedef struct
 
 /* Bit fields for EBI CTRL */
 #define _EBI_CTRL_RESETVALUE                      0x00000000UL                         /**< Default value for EBI_CTRL */
-#define _EBI_CTRL_MASK                            0xEFFFFFFFUL                         /**< Mask for EBI_CTRL */
+#define _EBI_CTRL_MASK                            0xCFFFFFFFUL                         /**< Mask for EBI_CTRL */
 #define _EBI_CTRL_MODE_SHIFT                      0                                    /**< Shift value for EBI_MODE */
 #define _EBI_CTRL_MODE_MASK                       0x3UL                                /**< Bit mask for EBI_MODE */
 #define _EBI_CTRL_MODE_DEFAULT                    0x00000000UL                         /**< Mode DEFAULT for EBI_CTRL */
