@@ -1,0 +1,297 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"efm32_emu.c"
+  14              		.text
+  15              		.align	1
+  16              		.thumb
+  17              		.thumb_func
+  19              	__WFI:
+  20              		@ args = 0, pretend = 0, frame = 0
+  21              		@ frame_needed = 0, uses_anonymous_args = 0
+  22              		@ link register save eliminated.
+  23              	@ 1211 "../../CMSIS/CM3/CoreSupport/core_cm3.h" 1
+  24 0000 30BF     		wfi
+  25              	@ 0 "" 2
+  26              		.thumb
+  27 0002 7047     		bx	lr
+  29              		.align	1
+  30              		.thumb
+  31              		.thumb_func
+  33              	CMU_Lock:
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 0, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0004 024B     		ldr	r3, .L5
+  38 0006 0022     		movs	r2, #0
+  39 0008 C3F88420 		str	r2, [r3, #132]
+  40 000c 7047     		bx	lr
+  41              	.L6:
+  42 000e 00BF     		.align	2
+  43              	.L5:
+  44 0010 00800C40 		.word	1074561024
+  46              		.align	1
+  47              		.thumb
+  48              		.thumb_func
+  50              	CMU_Unlock:
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+  54 0014 024B     		ldr	r3, .L9
+  55 0016 45F60E02 		movw	r2, #22542
+  56 001a C3F88420 		str	r2, [r3, #132]
+  57 001e 7047     		bx	lr
+  58              	.L10:
+  59              		.align	2
+  60              	.L9:
+  61 0020 00800C40 		.word	1074561024
+  63              		.align	1
+  64              		.thumb
+  65              		.thumb_func
+  67              	EMU_Restore:
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70 0024 70B5     		push	{r4, r5, r6, lr}
+  71 0026 194C     		ldr	r4, .L20
+  72 0028 D4F88450 		ldr	r5, [r4, #132]
+  73 002c FFF7F2FF 		bl	CMU_Unlock
+  74 0030 174B     		ldr	r3, .L20+4
+  75 0032 1B88     		ldrh	r3, [r3, #0]
+  76 0034 03F4AA72 		and	r2, r3, #340
+  77 0038 03F47053 		and	r3, r3, #15360
+  78 003c B3F5805F 		cmp	r3, #4096
+  79 0040 2262     		str	r2, [r4, #32]
+  80 0042 06D0     		beq	.L14
+  81 0044 B3F5005F 		cmp	r3, #8192
+  82 0048 0AD0     		beq	.L15
+  83 004a B3F5006F 		cmp	r3, #2048
+  84 004e 15D1     		bne	.L12
+  85 0050 0DE0     		b	.L13
+  86              	.L14:
+  87 0052 0E4B     		ldr	r3, .L20
+  88 0054 DA6A     		ldr	r2, [r3, #44]
+  89 0056 12F0800F 		tst	r2, #128
+  90 005a FAD0     		beq	.L14
+  91 005c 0322     		movs	r2, #3
+  92 005e 0CE0     		b	.L18
+  93              	.L15:
+  94 0060 0A4B     		ldr	r3, .L20
+  95 0062 DA6A     		ldr	r2, [r3, #44]
+  96 0064 12F4007F 		tst	r2, #512
+  97 0068 FAD0     		beq	.L15
+  98 006a 0422     		movs	r2, #4
+  99 006c 05E0     		b	.L18
+ 100              	.L13:
+ 101 006e 074B     		ldr	r3, .L20
+ 102 0070 DA6A     		ldr	r2, [r3, #44]
+ 103 0072 12F0080F 		tst	r2, #8
+ 104 0076 FAD0     		beq	.L13
+ 105 0078 0222     		movs	r2, #2
+ 106              	.L18:
+ 107 007a 5A62     		str	r2, [r3, #36]
+ 108              	.L12:
+ 109 007c 15F0010F 		tst	r5, #1
+ 110 0080 02D0     		beq	.L17
+ 111 0082 BDE87040 		pop	{r4, r5, r6, lr}
+ 112 0086 BDE7     		b	CMU_Lock
+ 113              	.L17:
+ 114 0088 70BD     		pop	{r4, r5, r6, pc}
+ 115              	.L21:
+ 116 008a 00BF     		.align	2
+ 117              	.L20:
+ 118 008c 00800C40 		.word	1074561024
+ 119 0090 00000000 		.word	.LANCHOR0
+ 121              		.align	1
+ 122              		.global	EMU_EnterEM4
+ 123              		.thumb
+ 124              		.thumb_func
+ 126              	EMU_EnterEM4:
+ 127              		@ args = 0, pretend = 0, frame = 0
+ 128              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129              		@ link register save eliminated.
+ 130 0094 074B     		ldr	r3, .L24
+ 131 0096 4AF6E852 		movw	r2, #44520
+ 132 009a 9A60     		str	r2, [r3, #8]
+ 133 009c 0C21     		movs	r1, #12
+ 134 009e 0822     		movs	r2, #8
+ 135 00a0 1A60     		str	r2, [r3, #0]
+ 136 00a2 1960     		str	r1, [r3, #0]
+ 137 00a4 1A60     		str	r2, [r3, #0]
+ 138 00a6 1960     		str	r1, [r3, #0]
+ 139 00a8 1A60     		str	r2, [r3, #0]
+ 140 00aa 1960     		str	r1, [r3, #0]
+ 141 00ac 1A60     		str	r2, [r3, #0]
+ 142 00ae 1960     		str	r1, [r3, #0]
+ 143 00b0 1A60     		str	r2, [r3, #0]
+ 144 00b2 7047     		bx	lr
+ 145              	.L25:
+ 146              		.align	2
+ 147              	.L24:
+ 148 00b4 00600C40 		.word	1074552832
+ 150              		.align	1
+ 151              		.global	EMU_MemPwrDown
+ 152              		.thumb
+ 153              		.thumb_func
+ 155              	EMU_MemPwrDown:
+ 156              		@ args = 0, pretend = 0, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159 00b8 014B     		ldr	r3, .L28
+ 160 00ba 5860     		str	r0, [r3, #4]
+ 161 00bc 7047     		bx	lr
+ 162              	.L29:
+ 163 00be 00BF     		.align	2
+ 164              	.L28:
+ 165 00c0 00600C40 		.word	1074552832
+ 167              		.align	1
+ 168              		.global	EMU_UpdateOscConfig
+ 169              		.thumb
+ 170              		.thumb_func
+ 172              	EMU_UpdateOscConfig:
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+ 176 00c4 024B     		ldr	r3, .L32
+ 177 00c6 DA6A     		ldr	r2, [r3, #44]
+ 178 00c8 024B     		ldr	r3, .L32+4
+ 179 00ca 1A80     		strh	r2, [r3, #0]	@ movhi
+ 180 00cc 7047     		bx	lr
+ 181              	.L33:
+ 182 00ce 00BF     		.align	2
+ 183              	.L32:
+ 184 00d0 00800C40 		.word	1074561024
+ 185 00d4 00000000 		.word	.LANCHOR0
+ 187              		.align	1
+ 188              		.thumb
+ 189              		.thumb_func
+ 191              	SystemCoreClockUpdate:
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              		@ link register save eliminated.
+ 195 00d8 FFF7FEBF 		b	SystemCoreClockGet
+ 197              		.align	1
+ 198              		.global	EMU_EnterEM3
+ 199              		.thumb
+ 200              		.thumb_func
+ 202              	EMU_EnterEM3:
+ 203              		@ args = 0, pretend = 0, frame = 0
+ 204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 205 00dc 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 206 00e0 124C     		ldr	r4, .L41
+ 207 00e2 134B     		ldr	r3, .L41+4
+ 208 00e4 E56A     		ldr	r5, [r4, #44]
+ 209 00e6 D4F88470 		ldr	r7, [r4, #132]
+ 210 00ea ADB2     		uxth	r5, r5
+ 211 00ec 1D80     		strh	r5, [r3, #0]	@ movhi
+ 212 00ee 0646     		mov	r6, r0
+ 213 00f0 FFF790FF 		bl	CMU_Unlock
+ 214 00f4 4FF42073 		mov	r3, #640
+ 215 00f8 17F0010F 		tst	r7, #1
+ 216 00fc 2362     		str	r3, [r4, #32]
+ 217 00fe 01D0     		beq	.L37
+ 218 0100 FFF780FF 		bl	CMU_Lock
+ 219              	.L37:
+ 220 0104 0B4B     		ldr	r3, .L41+8
+ 221 0106 1A69     		ldr	r2, [r3, #16]
+ 222 0108 42F00402 		orr	r2, r2, #4
+ 223 010c 1A61     		str	r2, [r3, #16]
+ 224 010e FFF777FF 		bl	__WFI
+ 225 0112 16B1     		cbz	r6, .L38
+ 226 0114 BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
+ 227 0118 84E7     		b	EMU_Restore
+ 228              	.L38:
+ 229 011a 15F4806F 		tst	r5, #1024
+ 230 011e 02D1     		bne	.L40
+ 231 0120 BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
+ 232 0124 D8E7     		b	SystemCoreClockUpdate
+ 233              	.L40:
+ 234 0126 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 235              	.L42:
+ 236 012a 00BF     		.align	2
+ 237              	.L41:
+ 238 012c 00800C40 		.word	1074561024
+ 239 0130 00000000 		.word	.LANCHOR0
+ 240 0134 00ED00E0 		.word	-536810240
+ 242              		.align	1
+ 243              		.global	EMU_EnterEM2
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	EMU_EnterEM2:
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250 0138 0C4B     		ldr	r3, .L47
+ 251 013a 70B5     		push	{r4, r5, r6, lr}
+ 252 013c DC6A     		ldr	r4, [r3, #44]
+ 253 013e 0C4B     		ldr	r3, .L47+4
+ 254 0140 A4B2     		uxth	r4, r4
+ 255 0142 1C80     		strh	r4, [r3, #0]	@ movhi
+ 256 0144 0B4B     		ldr	r3, .L47+8
+ 257 0146 0546     		mov	r5, r0
+ 258 0148 1A69     		ldr	r2, [r3, #16]
+ 259 014a 42F00402 		orr	r2, r2, #4
+ 260 014e 1A61     		str	r2, [r3, #16]
+ 261 0150 FFF756FF 		bl	__WFI
+ 262 0154 15B1     		cbz	r5, .L44
+ 263 0156 BDE87040 		pop	{r4, r5, r6, lr}
+ 264 015a 63E7     		b	EMU_Restore
+ 265              	.L44:
+ 266 015c 14F4806F 		tst	r4, #1024
+ 267 0160 02D1     		bne	.L46
+ 268 0162 BDE87040 		pop	{r4, r5, r6, lr}
+ 269 0166 B7E7     		b	SystemCoreClockUpdate
+ 270              	.L46:
+ 271 0168 70BD     		pop	{r4, r5, r6, pc}
+ 272              	.L48:
+ 273 016a 00BF     		.align	2
+ 274              	.L47:
+ 275 016c 00800C40 		.word	1074561024
+ 276 0170 00000000 		.word	.LANCHOR0
+ 277 0174 00ED00E0 		.word	-536810240
+ 279              		.bss
+ 280              		.align	1
+ 281              		.set	.LANCHOR0,. + 0
+ 284              	cmuStatus:
+ 285 0000 0000     		.space	2
+ 286              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
+DEFINED SYMBOLS
+                            *ABS*:00000000 efm32_emu.c
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:15     .text:00000000 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:19     .text:00000000 __WFI
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:33     .text:00000004 CMU_Lock
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:44     .text:00000010 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:46     .text:00000014 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:50     .text:00000014 CMU_Unlock
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:61     .text:00000020 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:63     .text:00000024 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:67     .text:00000024 EMU_Restore
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:118    .text:0000008c $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:121    .text:00000094 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:126    .text:00000094 EMU_EnterEM4
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:148    .text:000000b4 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:150    .text:000000b8 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:155    .text:000000b8 EMU_MemPwrDown
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:165    .text:000000c0 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:167    .text:000000c4 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:172    .text:000000c4 EMU_UpdateOscConfig
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:184    .text:000000d0 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:187    .text:000000d8 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:191    .text:000000d8 SystemCoreClockUpdate
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:202    .text:000000dc EMU_EnterEM3
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:238    .text:0000012c $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:242    .text:00000138 $t
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:247    .text:00000138 EMU_EnterEM2
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:275    .text:0000016c $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:280    .bss:00000000 $d
+C:\Users\matthias\AppData\Local\Temp\cchCv6x2.s:284    .bss:00000000 cmuStatus
+
+UNDEFINED SYMBOLS
+SystemCoreClockGet

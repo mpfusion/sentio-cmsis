@@ -1,0 +1,1202 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"efm32_cmu.c"
+  14              		.text
+  15              		.align	1
+  16              		.thumb
+  17              		.thumb_func
+  19              	BITBAND_Peripheral:
+  20              		@ args = 0, pretend = 0, frame = 0
+  21              		@ frame_needed = 0, uses_anonymous_args = 0
+  22              		@ link register save eliminated.
+  23 0000 00F10470 		add	r0, r0, #34603008
+  24 0004 01EBC000 		add	r0, r1, r0, lsl #3
+  25 0008 8000     		lsls	r0, r0, #2
+  26 000a 0260     		str	r2, [r0, #0]
+  27 000c 7047     		bx	lr
+  29              		.align	1
+  30              		.thumb
+  31              		.thumb_func
+  33              	CMU_FlashWaitStateControl:
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 0, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 000e 0D4B     		ldr	r3, .L13
+  38 0010 9842     		cmp	r0, r3
+  39 0012 0D4B     		ldr	r3, .L13+4
+  40 0014 5B68     		ldr	r3, [r3, #4]
+  41 0016 08D9     		bls	.L4
+  42 0018 13F00703 		ands	r3, r3, #7
+  43 001c 03D0     		beq	.L6
+  44 001e 022B     		cmp	r3, #2
+  45 0020 0ED1     		bne	.L11
+  46 0022 0133     		adds	r3, r3, #1
+  47 0024 0AE0     		b	.L8
+  48              	.L6:
+  49 0026 0123     		movs	r3, #1
+  50 0028 08E0     		b	.L8
+  51              	.L4:
+  52 002a 03F00703 		and	r3, r3, #7
+  53 002e 012B     		cmp	r3, #1
+  54 0030 03D0     		beq	.L9
+  55 0032 032B     		cmp	r3, #3
+  56 0034 04D1     		bne	.L11
+  57 0036 013B     		subs	r3, r3, #1
+  58 0038 00E0     		b	.L8
+  59              	.L9:
+  60 003a 0023     		movs	r3, #0
+  61              	.L8:
+  62 003c 024A     		ldr	r2, .L13+4
+  63 003e 5360     		str	r3, [r2, #4]
+  64              	.L11:
+  65 0040 7047     		bx	lr
+  66              	.L14:
+  67 0042 00BF     		.align	2
+  68              	.L13:
+  69 0044 0024F400 		.word	16000000
+  70 0048 00000C40 		.word	1074528256
+  72              		.align	1
+  73              		.thumb
+  74              		.thumb_func
+  76              	CMU_Sync:
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              		@ link register save eliminated.
+  80 004c 044B     		ldr	r3, .L19
+  81 004e 5B6D     		ldr	r3, [r3, #84]
+  82 0050 13F0010F 		tst	r3, #1
+  83 0054 03D1     		bne	.L18
+  84              	.L17:
+  85 0056 024B     		ldr	r3, .L19
+  86 0058 1B6D     		ldr	r3, [r3, #80]
+  87 005a 1842     		tst	r0, r3
+  88 005c FBD1     		bne	.L17
+  89              	.L18:
+  90 005e 7047     		bx	lr
+  91              	.L20:
+  92              		.align	2
+  93              	.L19:
+  94 0060 00800C40 		.word	1074561024
+  96              		.align	1
+  97              		.global	CMU_Calibrate
+  98              		.thumb
+  99              		.thumb_func
+ 101              	CMU_Calibrate:
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		@ link register save eliminated.
+ 105 0064 0429     		cmp	r1, #4
+ 106 0066 04D8     		bhi	.L22
+ 107 0068 DFE801F0 		tbb	[pc, r1]
+ 108              	.L28:
+ 109 006c 05       		.byte	(.L23-.L28)/2
+ 110 006d 07       		.byte	(.L24-.L28)/2
+ 111 006e 09       		.byte	(.L25-.L28)/2
+ 112 006f 0B       		.byte	(.L26-.L28)/2
+ 113 0070 0D       		.byte	(.L27-.L28)/2
+ 114 0071 00       		.align	1
+ 115              	.L22:
+ 116 0072 0020     		movs	r0, #0
+ 117 0074 7047     		bx	lr
+ 118              	.L23:
+ 119 0076 0122     		movs	r2, #1
+ 120 0078 06E0     		b	.L33
+ 121              	.L24:
+ 122 007a 0322     		movs	r2, #3
+ 123 007c 04E0     		b	.L33
+ 124              	.L25:
+ 125 007e 0022     		movs	r2, #0
+ 126 0080 02E0     		b	.L33
+ 127              	.L26:
+ 128 0082 0222     		movs	r2, #2
+ 129 0084 00E0     		b	.L33
+ 130              	.L27:
+ 131 0086 0422     		movs	r2, #4
+ 132              	.L33:
+ 133 0088 064B     		ldr	r3, .L34
+ 134 008a 9A61     		str	r2, [r3, #24]
+ 135 008c 054B     		ldr	r3, .L34
+ 136 008e 0822     		movs	r2, #8
+ 137 0090 D861     		str	r0, [r3, #28]
+ 138 0092 5A62     		str	r2, [r3, #36]
+ 139              	.L31:
+ 140 0094 034B     		ldr	r3, .L34
+ 141 0096 DA6A     		ldr	r2, [r3, #44]
+ 142 0098 12F4804F 		tst	r2, #16384
+ 143 009c FAD1     		bne	.L31
+ 144 009e D869     		ldr	r0, [r3, #28]
+ 145 00a0 7047     		bx	lr
+ 146              	.L35:
+ 147 00a2 00BF     		.align	2
+ 148              	.L34:
+ 149 00a4 00800C40 		.word	1074561024
+ 151              		.align	1
+ 152              		.global	CMU_ClockDivGet
+ 153              		.thumb
+ 154              		.thumb_func
+ 156              	CMU_ClockDivGet:
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+ 160 00a8 0309     		lsrs	r3, r0, #4
+ 161 00aa 03F00F03 		and	r3, r3, #15
+ 162 00ae 013B     		subs	r3, r3, #1
+ 163 00b0 032B     		cmp	r3, #3
+ 164 00b2 2DD8     		bhi	.L37
+ 165 00b4 DFE803F0 		tbb	[pc, r3]
+ 166              	.L42:
+ 167 00b8 02       		.byte	(.L38-.L42)/2
+ 168 00b9 05       		.byte	(.L39-.L42)/2
+ 169 00ba 08       		.byte	(.L40-.L42)/2
+ 170 00bb 1A       		.byte	(.L41-.L42)/2
+ 171              		.align	1
+ 172              	.L38:
+ 173 00bc 154B     		ldr	r3, .L55
+ 174 00be 9868     		ldr	r0, [r3, #8]
+ 175 00c0 0CE0     		b	.L49
+ 176              	.L39:
+ 177 00c2 144B     		ldr	r3, .L55
+ 178 00c4 5868     		ldr	r0, [r3, #4]
+ 179 00c6 09E0     		b	.L49
+ 180              	.L40:
+ 181 00c8 B0F5866F 		cmp	r0, #1072
+ 182 00cc 04D0     		beq	.L44
+ 183 00ce 41F23043 		movw	r3, #5168
+ 184 00d2 9842     		cmp	r0, r3
+ 185 00d4 1CD1     		bne	.L37
+ 186 00d6 04E0     		b	.L53
+ 187              	.L44:
+ 188 00d8 0E4B     		ldr	r3, .L55
+ 189 00da 986E     		ldr	r0, [r3, #104]
+ 190              	.L49:
+ 191 00dc 00F00F00 		and	r0, r0, #15
+ 192 00e0 7047     		bx	lr
+ 193              	.L53:
+ 194 00e2 0C4B     		ldr	r3, .L55
+ 195 00e4 986E     		ldr	r0, [r3, #104]
+ 196 00e6 00F0F000 		and	r0, r0, #240
+ 197 00ea 0FE0     		b	.L50
+ 198              	.L41:
+ 199 00ec B0F5A86F 		cmp	r0, #1344
+ 200 00f0 03D0     		beq	.L46
+ 201 00f2 B0F5AA5F 		cmp	r0, #5440
+ 202 00f6 0BD1     		bne	.L37
+ 203 00f8 04E0     		b	.L54
+ 204              	.L46:
+ 205 00fa 064B     		ldr	r3, .L55
+ 206 00fc 186F     		ldr	r0, [r3, #112]
+ 207 00fe 00F00300 		and	r0, r0, #3
+ 208 0102 7047     		bx	lr
+ 209              	.L54:
+ 210 0104 034B     		ldr	r3, .L55
+ 211 0106 186F     		ldr	r0, [r3, #112]
+ 212 0108 00F03000 		and	r0, r0, #48
+ 213              	.L50:
+ 214 010c 0009     		lsrs	r0, r0, #4
+ 215 010e 7047     		bx	lr
+ 216              	.L37:
+ 217 0110 0020     		movs	r0, #0
+ 218 0112 7047     		bx	lr
+ 219              	.L56:
+ 220              		.align	2
+ 221              	.L55:
+ 222 0114 00800C40 		.word	1074561024
+ 224              		.align	1
+ 225              		.global	CMU_ClockEnable
+ 226              		.thumb
+ 227              		.thumb_func
+ 229              	CMU_ClockEnable:
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232 0118 030A     		lsrs	r3, r0, #8
+ 233 011a 03F00F03 		and	r3, r3, #15
+ 234 011e 013B     		subs	r3, r3, #1
+ 235 0120 70B5     		push	{r4, r5, r6, lr}
+ 236 0122 0446     		mov	r4, r0
+ 237 0124 0D46     		mov	r5, r1
+ 238 0126 052B     		cmp	r3, #5
+ 239 0128 19D8     		bhi	.L68
+ 240 012a DFE803F0 		tbb	[pc, r3]
+ 241              	.L65:
+ 242 012e 05       		.byte	(.L59-.L65)/2
+ 243 012f 03       		.byte	(.L60-.L65)/2
+ 244 0130 07       		.byte	(.L61-.L65)/2
+ 245 0131 13       		.byte	(.L62-.L65)/2
+ 246 0132 09       		.byte	(.L63-.L65)/2
+ 247 0133 0C       		.byte	(.L64-.L65)/2
+ 248              		.align	1
+ 249              	.L60:
+ 250 0134 0A4E     		ldr	r6, .L69
+ 251 0136 07E0     		b	.L66
+ 252              	.L59:
+ 253 0138 0A4E     		ldr	r6, .L69+4
+ 254 013a 05E0     		b	.L66
+ 255              	.L61:
+ 256 013c 0A4E     		ldr	r6, .L69+8
+ 257 013e 03E0     		b	.L66
+ 258              	.L63:
+ 259 0140 1020     		movs	r0, #16
+ 260 0142 0A4E     		ldr	r6, .L69+12
+ 261 0144 08E0     		b	.L67
+ 262              	.L64:
+ 263 0146 0A4E     		ldr	r6, .L69+16
+ 264              	.L66:
+ 265 0148 3046     		mov	r0, r6
+ 266 014a 210B     		lsrs	r1, r4, #12
+ 267 014c 2A46     		mov	r2, r5
+ 268 014e BDE87040 		pop	{r4, r5, r6, lr}
+ 269 0152 55E7     		b	BITBAND_Peripheral
+ 270              	.L62:
+ 271 0154 074E     		ldr	r6, .L69+20
+ 272 0156 0120     		movs	r0, #1
+ 273              	.L67:
+ 274 0158 FFF778FF 		bl	CMU_Sync
+ 275 015c F4E7     		b	.L66
+ 276              	.L68:
+ 277 015e 70BD     		pop	{r4, r5, r6, pc}
+ 278              	.L70:
+ 279              		.align	2
+ 280              	.L69:
+ 281 0160 44800C40 		.word	1074561092
+ 282 0164 08800C40 		.word	1074561032
+ 283 0168 40800C40 		.word	1074561088
+ 284 016c 60800C40 		.word	1074561120
+ 285 0170 78800C40 		.word	1074561144
+ 286 0174 58800C40 		.word	1074561112
+ 288              		.align	1
+ 289              		.global	CMU_ClockSelectGet
+ 290              		.thumb
+ 291              		.thumb_func
+ 293              	CMU_ClockSelectGet:
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296              		@ link register save eliminated.
+ 297 0178 00F00F00 		and	r0, r0, #15
+ 298 017c 0228     		cmp	r0, #2
+ 299 017e 19D0     		beq	.L74
+ 300 0180 0328     		cmp	r0, #3
+ 301 0182 21D0     		beq	.L75
+ 302 0184 0128     		cmp	r0, #1
+ 303 0186 01D0     		beq	.L73
+ 304 0188 0020     		movs	r0, #0
+ 305 018a 7047     		bx	lr
+ 306              	.L73:
+ 307 018c 154B     		ldr	r3, .L83
+ 308 018e D86A     		ldr	r0, [r3, #44]
+ 309 0190 00F47050 		and	r0, r0, #15360
+ 310 0194 B0F5805F 		cmp	r0, #4096
+ 311 0198 08D0     		beq	.L79
+ 312 019a B0F5005F 		cmp	r0, #8192
+ 313 019e 07D0     		beq	.L80
+ 314 01a0 B0F5006F 		cmp	r0, #2048
+ 315 01a4 0CBF     		ite	eq
+ 316 01a6 0420     		moveq	r0, #4
+ 317 01a8 0520     		movne	r0, #5
+ 318 01aa 7047     		bx	lr
+ 319              	.L79:
+ 320 01ac 0320     		movs	r0, #3
+ 321 01ae 7047     		bx	lr
+ 322              	.L80:
+ 323 01b0 0220     		movs	r0, #2
+ 324 01b2 7047     		bx	lr
+ 325              	.L74:
+ 326 01b4 0B4B     		ldr	r3, .L83
+ 327 01b6 9B6A     		ldr	r3, [r3, #40]
+ 328 01b8 03F00303 		and	r3, r3, #3
+ 329 01bc 013B     		subs	r3, r3, #1
+ 330 01be 022B     		cmp	r3, #2
+ 331 01c0 0DD8     		bhi	.L81
+ 332 01c2 094A     		ldr	r2, .L83+4
+ 333 01c4 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 334 01c6 7047     		bx	lr
+ 335              	.L75:
+ 336 01c8 064B     		ldr	r3, .L83
+ 337 01ca 9B6A     		ldr	r3, [r3, #40]
+ 338 01cc 03F00C03 		and	r3, r3, #12
+ 339 01d0 013B     		subs	r3, r3, #1
+ 340 01d2 022B     		cmp	r3, #2
+ 341 01d4 03D8     		bhi	.L81
+ 342 01d6 044A     		ldr	r2, .L83+4
+ 343 01d8 9B18     		adds	r3, r3, r2
+ 344 01da 1879     		ldrb	r0, [r3, #4]	@ zero_extendqisi2
+ 345 01dc 7047     		bx	lr
+ 346              	.L81:
+ 347 01de 0120     		movs	r0, #1
+ 348 01e0 7047     		bx	lr
+ 349              	.L84:
+ 350 01e2 00BF     		.align	2
+ 351              	.L83:
+ 352 01e4 00800C40 		.word	1074561024
+ 353 01e8 00000000 		.word	.LANCHOR0
+ 355              		.align	1
+ 356              		.global	CMU_FreezeEnable
+ 357              		.thumb
+ 358              		.thumb_func
+ 360              	CMU_FreezeEnable:
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 364 01ec 30B1     		cbz	r0, .L86
+ 365              	.L87:
+ 366 01ee 054B     		ldr	r3, .L90
+ 367 01f0 1A6D     		ldr	r2, [r3, #80]
+ 368 01f2 002A     		cmp	r2, #0
+ 369 01f4 FBD1     		bne	.L87
+ 370 01f6 0132     		adds	r2, r2, #1
+ 371 01f8 5A65     		str	r2, [r3, #84]
+ 372 01fa 7047     		bx	lr
+ 373              	.L86:
+ 374 01fc 014A     		ldr	r2, .L90
+ 375 01fe 5065     		str	r0, [r2, #84]
+ 376 0200 7047     		bx	lr
+ 377              	.L91:
+ 378 0202 00BF     		.align	2
+ 379              	.L90:
+ 380 0204 00800C40 		.word	1074561024
+ 382              		.align	1
+ 383              		.global	CMU_HFRCOBandGet
+ 384              		.thumb
+ 385              		.thumb_func
+ 387              	CMU_HFRCOBandGet:
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 391 0208 024B     		ldr	r3, .L94
+ 392 020a D868     		ldr	r0, [r3, #12]
+ 393 020c 00F4E060 		and	r0, r0, #1792
+ 394 0210 000A     		lsrs	r0, r0, #8
+ 395 0212 7047     		bx	lr
+ 396              	.L95:
+ 397              		.align	2
+ 398              	.L94:
+ 399 0214 00800C40 		.word	1074561024
+ 401              		.align	1
+ 402              		.global	CMU_HFRCOStartupDelayGet
+ 403              		.thumb
+ 404              		.thumb_func
+ 406              	CMU_HFRCOStartupDelayGet:
+ 407              		@ args = 0, pretend = 0, frame = 0
+ 408              		@ frame_needed = 0, uses_anonymous_args = 0
+ 409              		@ link register save eliminated.
+ 410 0218 024B     		ldr	r3, .L98
+ 411 021a D868     		ldr	r0, [r3, #12]
+ 412 021c 00F4F830 		and	r0, r0, #126976
+ 413 0220 000B     		lsrs	r0, r0, #12
+ 414 0222 7047     		bx	lr
+ 415              	.L99:
+ 416              		.align	2
+ 417              	.L98:
+ 418 0224 00800C40 		.word	1074561024
+ 420              		.align	1
+ 421              		.global	CMU_HFRCOStartupDelaySet
+ 422              		.thumb
+ 423              		.thumb_func
+ 425              	CMU_HFRCOStartupDelaySet:
+ 426              		@ args = 0, pretend = 0, frame = 0
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 428              		@ link register save eliminated.
+ 429 0228 044B     		ldr	r3, .L102
+ 430 022a 00F01F00 		and	r0, r0, #31
+ 431 022e DA68     		ldr	r2, [r3, #12]
+ 432 0230 22F4F832 		bic	r2, r2, #126976
+ 433 0234 42EA0032 		orr	r2, r2, r0, lsl #12
+ 434 0238 DA60     		str	r2, [r3, #12]
+ 435 023a 7047     		bx	lr
+ 436              	.L103:
+ 437              		.align	2
+ 438              	.L102:
+ 439 023c 00800C40 		.word	1074561024
+ 441              		.align	1
+ 442              		.global	CMU_LCDClkFDIVGet
+ 443              		.thumb
+ 444              		.thumb_func
+ 446              	CMU_LCDClkFDIVGet:
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 449              		@ link register save eliminated.
+ 450 0240 0020     		movs	r0, #0
+ 451 0242 7047     		bx	lr
+ 453              		.align	1
+ 454              		.global	CMU_LCDClkFDIVSet
+ 455              		.thumb
+ 456              		.thumb_func
+ 458              	CMU_LCDClkFDIVSet:
+ 459              		@ args = 0, pretend = 0, frame = 0
+ 460              		@ frame_needed = 0, uses_anonymous_args = 0
+ 461              		@ link register save eliminated.
+ 462 0244 7047     		bx	lr
+ 464              		.align	1
+ 465              		.global	CMU_OscillatorTuningGet
+ 466              		.thumb
+ 467              		.thumb_func
+ 469              	CMU_OscillatorTuningGet:
+ 470              		@ args = 0, pretend = 0, frame = 0
+ 471              		@ frame_needed = 0, uses_anonymous_args = 0
+ 472              		@ link register save eliminated.
+ 473 0246 0328     		cmp	r0, #3
+ 474 0248 0AD0     		beq	.L111
+ 475 024a 0428     		cmp	r0, #4
+ 476 024c 0DD0     		beq	.L112
+ 477 024e 0128     		cmp	r0, #1
+ 478 0250 01D0     		beq	.L110
+ 479 0252 0020     		movs	r0, #0
+ 480 0254 7047     		bx	lr
+ 481              	.L110:
+ 482 0256 074B     		ldr	r3, .L115
+ 483 0258 1869     		ldr	r0, [r3, #16]
+ 484 025a 00F07F00 		and	r0, r0, #127
+ 485 025e 7047     		bx	lr
+ 486              	.L111:
+ 487 0260 044B     		ldr	r3, .L115
+ 488 0262 D868     		ldr	r0, [r3, #12]
+ 489 0264 00F0FF00 		and	r0, r0, #255
+ 490 0268 7047     		bx	lr
+ 491              	.L112:
+ 492 026a 024B     		ldr	r3, .L115
+ 493 026c 5869     		ldr	r0, [r3, #20]
+ 494 026e 00F0FF00 		and	r0, r0, #255
+ 495 0272 7047     		bx	lr
+ 496              	.L116:
+ 497              		.align	2
+ 498              	.L115:
+ 499 0274 00800C40 		.word	1074561024
+ 501              		.align	1
+ 502              		.global	CMU_OscillatorTuningSet
+ 503              		.thumb
+ 504              		.thumb_func
+ 506              	CMU_OscillatorTuningSet:
+ 507              		@ args = 0, pretend = 0, frame = 0
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 509              		@ link register save eliminated.
+ 510 0278 0328     		cmp	r0, #3
+ 511 027a 0CD0     		beq	.L120
+ 512 027c 0428     		cmp	r0, #4
+ 513 027e 13D0     		beq	.L121
+ 514 0280 0128     		cmp	r0, #1
+ 515 0282 19D1     		bne	.L122
+ 516 0284 0D4B     		ldr	r3, .L123
+ 517 0286 01F07F01 		and	r1, r1, #127
+ 518 028a 1A69     		ldr	r2, [r3, #16]
+ 519 028c 22F07F02 		bic	r2, r2, #127
+ 520 0290 1143     		orrs	r1, r1, r2
+ 521 0292 1961     		str	r1, [r3, #16]
+ 522 0294 7047     		bx	lr
+ 523              	.L120:
+ 524 0296 094B     		ldr	r3, .L123
+ 525 0298 01F0FF01 		and	r1, r1, #255
+ 526 029c DA68     		ldr	r2, [r3, #12]
+ 527 029e 22F0FF02 		bic	r2, r2, #255
+ 528 02a2 1143     		orrs	r1, r1, r2
+ 529 02a4 D960     		str	r1, [r3, #12]
+ 530 02a6 7047     		bx	lr
+ 531              	.L121:
+ 532 02a8 044B     		ldr	r3, .L123
+ 533 02aa 01F0FF01 		and	r1, r1, #255
+ 534 02ae 5A69     		ldr	r2, [r3, #20]
+ 535 02b0 22F0FF02 		bic	r2, r2, #255
+ 536 02b4 1143     		orrs	r1, r1, r2
+ 537 02b6 5961     		str	r1, [r3, #20]
+ 538              	.L122:
+ 539 02b8 7047     		bx	lr
+ 540              	.L124:
+ 541 02ba 00BF     		.align	2
+ 542              	.L123:
+ 543 02bc 00800C40 		.word	1074561024
+ 545              		.align	1
+ 546              		.global	CMU_PCNTClockExternalGet
+ 547              		.thumb
+ 548              		.thumb_func
+ 550              	CMU_PCNTClockExternalGet:
+ 551              		@ args = 0, pretend = 0, frame = 0
+ 552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 553              		@ link register save eliminated.
+ 554 02c0 0128     		cmp	r0, #1
+ 555 02c2 09D0     		beq	.L128
+ 556 02c4 03D3     		bcc	.L127
+ 557 02c6 0228     		cmp	r0, #2
+ 558 02c8 0BD0     		beq	.L129
+ 559 02ca 0020     		movs	r0, #0
+ 560 02cc 7047     		bx	lr
+ 561              	.L127:
+ 562 02ce 094B     		ldr	r3, .L133
+ 563 02d0 986F     		ldr	r0, [r3, #120]
+ 564 02d2 00F00200 		and	r0, r0, #2
+ 565 02d6 08E0     		b	.L131
+ 566              	.L128:
+ 567 02d8 064B     		ldr	r3, .L133
+ 568 02da 986F     		ldr	r0, [r3, #120]
+ 569 02dc 00F00800 		and	r0, r0, #8
+ 570 02e0 03E0     		b	.L131
+ 571              	.L129:
+ 572 02e2 044B     		ldr	r3, .L133
+ 573 02e4 986F     		ldr	r0, [r3, #120]
+ 574 02e6 00F02000 		and	r0, r0, #32
+ 575              	.L131:
+ 576 02ea 0038     		subs	r0, r0, #0
+ 577 02ec 18BF     		it	ne
+ 578 02ee 0120     		movne	r0, #1
+ 579 02f0 7047     		bx	lr
+ 580              	.L134:
+ 581 02f2 00BF     		.align	2
+ 582              	.L133:
+ 583 02f4 00800C40 		.word	1074561024
+ 585              		.align	1
+ 586              		.global	CMU_PCNTClockExternalSet
+ 587              		.thumb
+ 588              		.thumb_func
+ 590              	CMU_PCNTClockExternalSet:
+ 591              		@ args = 0, pretend = 0, frame = 0
+ 592              		@ frame_needed = 0, uses_anonymous_args = 0
+ 593              		@ link register save eliminated.
+ 594 02f8 0A46     		mov	r2, r1
+ 595 02fa 4100     		lsls	r1, r0, #1
+ 596 02fc 0148     		ldr	r0, .L137
+ 597 02fe 0131     		adds	r1, r1, #1
+ 598 0300 7EE6     		b	BITBAND_Peripheral
+ 599              	.L138:
+ 600 0302 00BF     		.align	2
+ 601              	.L137:
+ 602 0304 78800C40 		.word	1074561144
+ 604              		.align	1
+ 605              		.global	CMU_OscillatorEnable
+ 606              		.thumb
+ 607              		.thumb_func
+ 609              	CMU_OscillatorEnable:
+ 610              		@ args = 0, pretend = 0, frame = 0
+ 611              		@ frame_needed = 0, uses_anonymous_args = 0
+ 612              		@ link register save eliminated.
+ 613 0308 0428     		cmp	r0, #4
+ 614 030a 21D8     		bhi	.L151
+ 615 030c DFE800F0 		tbb	[pc, r0]
+ 616              	.L146:
+ 617 0310 0F       		.byte	(.L141-.L146)/2
+ 618 0311 0C       		.byte	(.L142-.L146)/2
+ 619 0312 03       		.byte	(.L143-.L146)/2
+ 620 0313 06       		.byte	(.L144-.L146)/2
+ 621 0314 09       		.byte	(.L145-.L146)/2
+ 622 0315 00       		.align	1
+ 623              	.L143:
+ 624 0316 0823     		movs	r3, #8
+ 625 0318 0420     		movs	r0, #4
+ 626 031a 0CE0     		b	.L147
+ 627              	.L144:
+ 628 031c 0223     		movs	r3, #2
+ 629 031e 0120     		movs	r0, #1
+ 630 0320 09E0     		b	.L147
+ 631              	.L145:
+ 632 0322 2023     		movs	r3, #32
+ 633 0324 1020     		movs	r0, #16
+ 634 0326 06E0     		b	.L147
+ 635              	.L142:
+ 636 0328 8023     		movs	r3, #128
+ 637 032a 4020     		movs	r0, #64
+ 638 032c 03E0     		b	.L147
+ 639              	.L141:
+ 640 032e 4FF40073 		mov	r3, #512
+ 641 0332 4FF48070 		mov	r0, #256
+ 642              	.L147:
+ 643 0336 39B1     		cbz	r1, .L148
+ 644 0338 0649     		ldr	r1, .L152
+ 645 033a 0862     		str	r0, [r1, #32]
+ 646 033c 32B1     		cbz	r2, .L149
+ 647              	.L150:
+ 648 033e 054A     		ldr	r2, .L152
+ 649 0340 D26A     		ldr	r2, [r2, #44]
+ 650 0342 1342     		tst	r3, r2
+ 651 0344 FBD0     		beq	.L150
+ 652 0346 01E0     		b	.L149
+ 653              	.L148:
+ 654 0348 024A     		ldr	r2, .L152
+ 655 034a 1362     		str	r3, [r2, #32]
+ 656              	.L149:
+ 657 034c FFF7FEBF 		b	EMU_UpdateOscConfig
+ 658              	.L151:
+ 659 0350 7047     		bx	lr
+ 660              	.L153:
+ 661 0352 00BF     		.align	2
+ 662              	.L152:
+ 663 0354 00800C40 		.word	1074561024
+ 665              		.align	1
+ 666              		.global	CMU_HFRCOBandSet
+ 667              		.thumb
+ 668              		.thumb_func
+ 670              	CMU_HFRCOBandSet:
+ 671              		@ args = 0, pretend = 0, frame = 0
+ 672              		@ frame_needed = 0, uses_anonymous_args = 0
+ 673 0358 70B5     		push	{r4, r5, r6, lr}
+ 674 035a 0546     		mov	r5, r0
+ 675 035c 0528     		cmp	r0, #5
+ 676 035e 39D8     		bhi	.L165
+ 677 0360 DFE800F0 		tbb	[pc, r0]
+ 678              	.L162:
+ 679 0364 03       		.byte	(.L156-.L162)/2
+ 680 0365 06       		.byte	(.L157-.L162)/2
+ 681 0366 09       		.byte	(.L158-.L162)/2
+ 682 0367 0F       		.byte	(.L159-.L162)/2
+ 683 0368 13       		.byte	(.L160-.L162)/2
+ 684 0369 18       		.byte	(.L161-.L162)/2
+ 685              		.align	1
+ 686              	.L156:
+ 687 036a 1B4B     		ldr	r3, .L168
+ 688 036c DC6A     		ldr	r4, [r3, #44]
+ 689 036e 0EE0     		b	.L166
+ 690              	.L157:
+ 691 0370 194B     		ldr	r3, .L168
+ 692 0372 DC6A     		ldr	r4, [r3, #44]
+ 693 0374 10E0     		b	.L167
+ 694              	.L158:
+ 695 0376 184B     		ldr	r3, .L168
+ 696 0378 DC6A     		ldr	r4, [r3, #44]
+ 697 037a 04F47F04 		and	r4, r4, #16711680
+ 698 037e 240C     		lsrs	r4, r4, #16
+ 699 0380 0DE0     		b	.L163
+ 700              	.L159:
+ 701 0382 154B     		ldr	r3, .L168
+ 702 0384 DC6A     		ldr	r4, [r3, #44]
+ 703 0386 240E     		lsrs	r4, r4, #24
+ 704 0388 09E0     		b	.L163
+ 705              	.L160:
+ 706 038a 134B     		ldr	r3, .L168
+ 707 038c 1C6B     		ldr	r4, [r3, #48]
+ 708              	.L166:
+ 709 038e 04F0FF04 		and	r4, r4, #255
+ 710 0392 04E0     		b	.L163
+ 711              	.L161:
+ 712 0394 104B     		ldr	r3, .L168
+ 713 0396 1C6B     		ldr	r4, [r3, #48]
+ 714              	.L167:
+ 715 0398 04F47F44 		and	r4, r4, #65280
+ 716 039c 240A     		lsrs	r4, r4, #8
+ 717              	.L163:
+ 718 039e 0120     		movs	r0, #1
+ 719 03a0 FFF7FEFF 		bl	CMU_ClockSelectGet
+ 720 03a4 0528     		cmp	r0, #5
+ 721 03a6 0646     		mov	r6, r0
+ 722 03a8 02D1     		bne	.L164
+ 723 03aa 0C48     		ldr	r0, .L168+4
+ 724 03ac FFF72FFE 		bl	CMU_FlashWaitStateControl
+ 725              	.L164:
+ 726 03b0 0B4A     		ldr	r2, .L168+8
+ 727 03b2 052E     		cmp	r6, #5
+ 728 03b4 D368     		ldr	r3, [r2, #12]
+ 729 03b6 23F4FE63 		bic	r3, r3, #2032
+ 730 03ba 23F00F03 		bic	r3, r3, #15
+ 731 03be 43EA0525 		orr	r5, r3, r5, lsl #8
+ 732 03c2 45EA0404 		orr	r4, r5, r4
+ 733 03c6 D460     		str	r4, [r2, #12]
+ 734 03c8 04D1     		bne	.L165
+ 735 03ca FFF7FEFF 		bl	SystemCoreClockGet
+ 736 03ce BDE87040 		pop	{r4, r5, r6, lr}
+ 737 03d2 1CE6     		b	CMU_FlashWaitStateControl
+ 738              	.L165:
+ 739 03d4 70BD     		pop	{r4, r5, r6, pc}
+ 740              	.L169:
+ 741 03d6 00BF     		.align	2
+ 742              	.L168:
+ 743 03d8 B081E00F 		.word	266371504
+ 744 03dc 0124F400 		.word	16000001
+ 745 03e0 00800C40 		.word	1074561024
+ 747              		.align	1
+ 748              		.global	CMU_ClockSelectSet
+ 749              		.thumb
+ 750              		.thumb_func
+ 752              	CMU_ClockSelectSet:
+ 753              		@ args = 0, pretend = 0, frame = 0
+ 754              		@ frame_needed = 0, uses_anonymous_args = 0
+ 755 03e4 00F00F00 		and	r0, r0, #15
+ 756 03e8 0128     		cmp	r0, #1
+ 757 03ea 10B5     		push	{r4, lr}
+ 758 03ec 03D0     		beq	.L172
+ 759 03ee 50D3     		bcc	.L188
+ 760 03f0 0328     		cmp	r0, #3
+ 761 03f2 4ED8     		bhi	.L188
+ 762 03f4 21E0     		b	.L191
+ 763              	.L172:
+ 764 03f6 0239     		subs	r1, r1, #2
+ 765 03f8 0329     		cmp	r1, #3
+ 766 03fa 4AD8     		bhi	.L188
+ 767 03fc DFE801F0 		tbb	[pc, r1]
+ 768              	.L178:
+ 769 0400 05       		.byte	(.L174-.L178)/2
+ 770 0401 02       		.byte	(.L175-.L178)/2
+ 771 0402 08       		.byte	(.L176-.L178)/2
+ 772 0403 0B       		.byte	(.L177-.L178)/2
+ 773              		.align	1
+ 774              	.L175:
+ 775 0404 0120     		movs	r0, #1
+ 776 0406 0324     		movs	r4, #3
+ 777 0408 07E0     		b	.L179
+ 778              	.L174:
+ 779 040a 0020     		movs	r0, #0
+ 780 040c 0424     		movs	r4, #4
+ 781 040e 04E0     		b	.L179
+ 782              	.L176:
+ 783 0410 0220     		movs	r0, #2
+ 784 0412 0446     		mov	r4, r0
+ 785 0414 01E0     		b	.L179
+ 786              	.L177:
+ 787 0416 0320     		movs	r0, #3
+ 788 0418 0124     		movs	r4, #1
+ 789              	.L179:
+ 790 041a 0121     		movs	r1, #1
+ 791 041c 0A46     		mov	r2, r1
+ 792 041e FFF7FEFF 		bl	CMU_OscillatorEnable
+ 793 0422 1C48     		ldr	r0, .L192
+ 794 0424 FFF7F3FD 		bl	CMU_FlashWaitStateControl
+ 795 0428 1B4B     		ldr	r3, .L192+4
+ 796 042a 5C62     		str	r4, [r3, #36]
+ 797 042c FFF7FEFF 		bl	EMU_UpdateOscConfig
+ 798 0430 FFF7FEFF 		bl	SystemCoreClockGet
+ 799 0434 BDE81040 		pop	{r4, lr}
+ 800 0438 E9E5     		b	CMU_FlashWaitStateControl
+ 801              	.L191:
+ 802 043a 0139     		subs	r1, r1, #1
+ 803 043c 0228     		cmp	r0, #2
+ 804 043e 14BF     		ite	ne
+ 805 0440 0224     		movne	r4, #2
+ 806 0442 0024     		moveq	r4, #0
+ 807 0444 0529     		cmp	r1, #5
+ 808 0446 24D8     		bhi	.L188
+ 809 0448 DFE801F0 		tbb	[pc, r1]
+ 810              	.L186:
+ 811 044c 03       		.byte	(.L182-.L186)/2
+ 812 044d 05       		.byte	(.L183-.L186)/2
+ 813 044e 0C       		.byte	(.L184-.L186)/2
+ 814 044f 23       		.byte	(.L188-.L186)/2
+ 815 0450 23       		.byte	(.L188-.L186)/2
+ 816 0451 13       		.byte	(.L185-.L186)/2
+ 817              		.align	1
+ 818              	.L182:
+ 819 0452 0023     		movs	r3, #0
+ 820 0454 13E0     		b	.L187
+ 821              	.L183:
+ 822 0456 0121     		movs	r1, #1
+ 823 0458 0020     		movs	r0, #0
+ 824 045a 0A46     		mov	r2, r1
+ 825 045c FFF7FEFF 		bl	CMU_OscillatorEnable
+ 826 0460 0223     		movs	r3, #2
+ 827 0462 0CE0     		b	.L187
+ 828              	.L184:
+ 829 0464 0120     		movs	r0, #1
+ 830 0466 0146     		mov	r1, r0
+ 831 0468 0246     		mov	r2, r0
+ 832 046a FFF7FEFF 		bl	CMU_OscillatorEnable
+ 833 046e 0123     		movs	r3, #1
+ 834 0470 05E0     		b	.L187
+ 835              	.L185:
+ 836 0472 0A48     		ldr	r0, .L192+8
+ 837 0474 0221     		movs	r1, #2
+ 838 0476 0122     		movs	r2, #1
+ 839 0478 FFF7C2FD 		bl	BITBAND_Peripheral
+ 840 047c 0323     		movs	r3, #3
+ 841              	.L187:
+ 842 047e 0320     		movs	r0, #3
+ 843 0480 A340     		lsls	r3, r3, r4
+ 844 0482 10FA04F4 		lsls	r4, r0, r4
+ 845 0486 044A     		ldr	r2, .L192+4
+ 846 0488 916A     		ldr	r1, [r2, #40]
+ 847 048a 21EA0404 		bic	r4, r1, r4
+ 848 048e 2343     		orrs	r3, r3, r4
+ 849 0490 9362     		str	r3, [r2, #40]
+ 850              	.L188:
+ 851 0492 10BD     		pop	{r4, pc}
+ 852              	.L193:
+ 853              		.align	2
+ 854              	.L192:
+ 855 0494 0124F400 		.word	16000001
+ 856 0498 00800C40 		.word	1074561024
+ 857 049c 40800C40 		.word	1074561088
+ 859              		.align	1
+ 860              		.global	CMU_ClockDivSet
+ 861              		.thumb
+ 862              		.thumb_func
+ 864              	CMU_ClockDivSet:
+ 865              		@ args = 0, pretend = 0, frame = 0
+ 866              		@ frame_needed = 0, uses_anonymous_args = 0
+ 867 04a0 0309     		lsrs	r3, r0, #4
+ 868 04a2 03F00F03 		and	r3, r3, #15
+ 869 04a6 013B     		subs	r3, r3, #1
+ 870 04a8 10B5     		push	{r4, lr}
+ 871 04aa 0C46     		mov	r4, r1
+ 872 04ac 032B     		cmp	r3, #3
+ 873 04ae 4FD8     		bhi	.L205
+ 874 04b0 DFE803F0 		tbb	[pc, r3]
+ 875              	.L200:
+ 876 04b4 02       		.byte	(.L196-.L200)/2
+ 877 04b5 09       		.byte	(.L197-.L200)/2
+ 878 04b6 17       		.byte	(.L198-.L200)/2
+ 879 04b7 33       		.byte	(.L199-.L200)/2
+ 880              		.align	1
+ 881              	.L196:
+ 882 04b8 264B     		ldr	r3, .L211
+ 883 04ba 9A68     		ldr	r2, [r3, #8]
+ 884 04bc 22F00F02 		bic	r2, r2, #15
+ 885 04c0 1443     		orrs	r4, r4, r2
+ 886 04c2 9C60     		str	r4, [r3, #8]
+ 887 04c4 10BD     		pop	{r4, pc}
+ 888              	.L197:
+ 889 04c6 2448     		ldr	r0, .L211+4
+ 890 04c8 FFF7A1FD 		bl	CMU_FlashWaitStateControl
+ 891 04cc 214B     		ldr	r3, .L211
+ 892 04ce 5A68     		ldr	r2, [r3, #4]
+ 893 04d0 22F00F02 		bic	r2, r2, #15
+ 894 04d4 1443     		orrs	r4, r4, r2
+ 895 04d6 5C60     		str	r4, [r3, #4]
+ 896 04d8 FFF7FEFF 		bl	SystemCoreClockGet
+ 897 04dc BDE81040 		pop	{r4, lr}
+ 898 04e0 95E5     		b	CMU_FlashWaitStateControl
+ 899              	.L198:
+ 900 04e2 B0F5866F 		cmp	r0, #1072
+ 901 04e6 04D0     		beq	.L201
+ 902 04e8 41F23043 		movw	r3, #5168
+ 903 04ec 9842     		cmp	r0, r3
+ 904 04ee 2FD1     		bne	.L205
+ 905 04f0 08E0     		b	.L209
+ 906              	.L201:
+ 907 04f2 0420     		movs	r0, #4
+ 908 04f4 FFF7AAFD 		bl	CMU_Sync
+ 909 04f8 164B     		ldr	r3, .L211
+ 910 04fa 9A6E     		ldr	r2, [r3, #104]
+ 911 04fc 22F00F02 		bic	r2, r2, #15
+ 912 0500 1443     		orrs	r4, r4, r2
+ 913 0502 08E0     		b	.L206
+ 914              	.L209:
+ 915 0504 0420     		movs	r0, #4
+ 916 0506 FFF7A1FD 		bl	CMU_Sync
+ 917 050a 124B     		ldr	r3, .L211
+ 918 050c 9A6E     		ldr	r2, [r3, #104]
+ 919 050e 22F0F002 		bic	r2, r2, #240
+ 920 0512 42EA0414 		orr	r4, r2, r4, lsl #4
+ 921              	.L206:
+ 922 0516 9C66     		str	r4, [r3, #104]
+ 923 0518 10BD     		pop	{r4, pc}
+ 924              	.L199:
+ 925 051a B0F5A86F 		cmp	r0, #1344
+ 926 051e 03D0     		beq	.L203
+ 927 0520 B0F5AA5F 		cmp	r0, #5440
+ 928 0524 14D1     		bne	.L205
+ 929 0526 09E0     		b	.L210
+ 930              	.L203:
+ 931 0528 4020     		movs	r0, #64
+ 932 052a FFF78FFD 		bl	CMU_Sync
+ 933 052e 094B     		ldr	r3, .L211
+ 934 0530 1A6F     		ldr	r2, [r3, #112]
+ 935 0532 22F00302 		bic	r2, r2, #3
+ 936 0536 1443     		orrs	r4, r4, r2
+ 937 0538 1C67     		str	r4, [r3, #112]
+ 938 053a 10BD     		pop	{r4, pc}
+ 939              	.L210:
+ 940 053c 4020     		movs	r0, #64
+ 941 053e FFF785FD 		bl	CMU_Sync
+ 942 0542 044B     		ldr	r3, .L211
+ 943 0544 1A6F     		ldr	r2, [r3, #112]
+ 944 0546 22F03002 		bic	r2, r2, #48
+ 945 054a 42EA0414 		orr	r4, r2, r4, lsl #4
+ 946 054e 1C67     		str	r4, [r3, #112]
+ 947              	.L205:
+ 948 0550 10BD     		pop	{r4, pc}
+ 949              	.L212:
+ 950 0552 00BF     		.align	2
+ 951              	.L211:
+ 952 0554 00800C40 		.word	1074561024
+ 953 0558 0124F400 		.word	16000001
+ 955              		.align	1
+ 956              		.thumb
+ 957              		.thumb_func
+ 959              	CMU_LFClkGet:
+ 960              		@ args = 0, pretend = 0, frame = 0
+ 961              		@ frame_needed = 0, uses_anonymous_args = 0
+ 962 055c 0D4B     		ldr	r3, .L220
+ 963 055e 4000     		lsls	r0, r0, #1
+ 964 0560 9B6A     		ldr	r3, [r3, #40]
+ 965 0562 10B5     		push	{r4, lr}
+ 966 0564 C340     		lsrs	r3, r3, r0
+ 967 0566 03F00303 		and	r3, r3, #3
+ 968 056a 022B     		cmp	r3, #2
+ 969 056c 09D0     		beq	.L216
+ 970 056e 032B     		cmp	r3, #3
+ 971 0570 0BD0     		beq	.L217
+ 972 0572 012B     		cmp	r3, #1
+ 973 0574 01D0     		beq	.L215
+ 974 0576 0020     		movs	r0, #0
+ 975 0578 10BD     		pop	{r4, pc}
+ 976              	.L215:
+ 977 057a BDE81040 		pop	{r4, lr}
+ 978 057e FFF7FEBF 		b	SystemLFRCOClockGet
+ 979              	.L216:
+ 980 0582 BDE81040 		pop	{r4, lr}
+ 981 0586 FFF7FEBF 		b	SystemLFXOClockGet
+ 982              	.L217:
+ 983 058a FFF7FEFF 		bl	SystemCoreClockGet
+ 984 058e 4008     		lsrs	r0, r0, #1
+ 985 0590 10BD     		pop	{r4, pc}
+ 986              	.L221:
+ 987 0592 00BF     		.align	2
+ 988              	.L220:
+ 989 0594 00800C40 		.word	1074561024
+ 991              		.align	1
+ 992              		.global	CMU_ClockFreqGet
+ 993              		.thumb
+ 994              		.thumb_func
+ 996              	CMU_ClockFreqGet:
+ 997              		@ args = 0, pretend = 0, frame = 0
+ 998              		@ frame_needed = 0, uses_anonymous_args = 0
+ 999 0598 B0F5185F 		cmp	r0, #9728
+ 1000 059c 10B5     		push	{r4, lr}
+ 1001 059e 00F08480 		beq	.L231
+ 1002 05a2 30D8     		bhi	.L234
+ 1003 05a4 B0F5A86F 		cmp	r0, #1344
+ 1004 05a8 00F08580 		beq	.L230
+ 1005 05ac 12D8     		bhi	.L235
+ 1006 05ae 2028     		cmp	r0, #32
+ 1007 05b0 65D0     		beq	.L227
+ 1008 05b2 06D8     		bhi	.L236
+ 1009 05b4 0228     		cmp	r0, #2
+ 1010 05b6 78D0     		beq	.L231
+ 1011 05b8 0328     		cmp	r0, #3
+ 1012 05ba 78D0     		beq	.L226
+ 1013 05bc 0128     		cmp	r0, #1
+ 1014 05be 53D1     		bne	.L223
+ 1015 05c0 54E0     		b	.L250
+ 1016              	.L236:
+ 1017 05c2 B0F5407F 		cmp	r0, #768
+ 1018 05c6 5AD0     		beq	.L227
+ 1019 05c8 B0F5866F 		cmp	r0, #1072
+ 1020 05cc 5BD0     		beq	.L229
+ 1021 05ce B0F5007F 		cmp	r0, #512
+ 1022 05d2 48E0     		b	.L243
+ 1023              	.L235:
+ 1024 05d4 41F23043 		movw	r3, #5168
+ 1025 05d8 9842     		cmp	r0, r3
+ 1026 05da 5DD0     		beq	.L232
+ 1027 05dc 09D8     		bhi	.L237
+ 1028 05de B0F5905F 		cmp	r0, #4608
+ 1029 05e2 47D0     		beq	.L228
+ 1030 05e4 B0F5985F 		cmp	r0, #4864
+ 1031 05e8 49D0     		beq	.L227
+ 1032 05ea B0F5C06F 		cmp	r0, #1536
+ 1033 05ee 3BD1     		bne	.L223
+ 1034 05f0 5BE0     		b	.L231
+ 1035              	.L237:
+ 1036 05f2 B0F5085F 		cmp	r0, #8704
+ 1037 05f6 3DD0     		beq	.L228
+ 1038 05f8 B0F50C5F 		cmp	r0, #8960
+ 1039 05fc 3FD0     		beq	.L227
+ 1040 05fe B0F5AA5F 		cmp	r0, #5440
+ 1041 0602 31D1     		bne	.L223
+ 1042 0604 5FE0     		b	.L251
+ 1043              	.L234:
+ 1044 0606 48F21013 		movw	r3, #33040
+ 1045 060a 9842     		cmp	r0, r3
+ 1046 060c 32D0     		beq	.L228
+ 1047 060e 15D8     		bhi	.L238
+ 1048 0610 B0F58C4F 		cmp	r0, #17920
+ 1049 0614 49D0     		beq	.L231
+ 1050 0616 08D8     		bhi	.L239
+ 1051 0618 B0F54C5F 		cmp	r0, #13056
+ 1052 061c 2FD0     		beq	.L227
+ 1053 061e B0F5844F 		cmp	r0, #16896
+ 1054 0622 27D0     		beq	.L228
+ 1055 0624 B0F5485F 		cmp	r0, #12800
+ 1056 0628 1DE0     		b	.L243
+ 1057              	.L239:
+ 1058 062a B0F5C44F 		cmp	r0, #25088
+ 1059 062e 21D0     		beq	.L228
+ 1060 0630 B0F5E44F 		cmp	r0, #29184
+ 1061 0634 1ED0     		beq	.L228
+ 1062 0636 B0F5A44F 		cmp	r0, #20992
+ 1063 063a 14E0     		b	.L243
+ 1064              	.L238:
+ 1065 063c B0F5424F 		cmp	r0, #49664
+ 1066 0640 18D0     		beq	.L228
+ 1067 0642 08D8     		bhi	.L240
+ 1068 0644 B0F5224F 		cmp	r0, #41472
+ 1069 0648 14D0     		beq	.L228
+ 1070 064a B0F5324F 		cmp	r0, #45568
+ 1071 064e 11D0     		beq	.L228
+ 1072 0650 B0F5024F 		cmp	r0, #33280
+ 1073 0654 07E0     		b	.L243
+ 1074              	.L240:
+ 1075 0656 B0F5624F 		cmp	r0, #57856
+ 1076 065a 0BD0     		beq	.L228
+ 1077 065c B0F5724F 		cmp	r0, #61952
+ 1078 0660 08D0     		beq	.L228
+ 1079 0662 B0F5524F 		cmp	r0, #53760
+ 1080              	.L243:
+ 1081 0666 05D0     		beq	.L228
+ 1082              	.L223:
+ 1083 0668 0020     		movs	r0, #0
+ 1084 066a 10BD     		pop	{r4, pc}
+ 1085              	.L250:
+ 1086 066c BDE81040 		pop	{r4, lr}
+ 1087 0670 FFF7FEBF 		b	SystemHFClockGet
+ 1088              	.L228:
+ 1089 0674 FFF7FEFF 		bl	SystemHFClockGet
+ 1090 0678 184B     		ldr	r3, .L252
+ 1091 067a 9B68     		ldr	r3, [r3, #8]
+ 1092 067c 08E0     		b	.L246
+ 1093              	.L227:
+ 1094 067e BDE81040 		pop	{r4, lr}
+ 1095 0682 FFF7FEBF 		b	SystemCoreClockGet
+ 1096              	.L229:
+ 1097 0686 0020     		movs	r0, #0
+ 1098 0688 FFF768FF 		bl	CMU_LFClkGet
+ 1099 068c 134B     		ldr	r3, .L252
+ 1100 068e 9B6E     		ldr	r3, [r3, #104]
+ 1101              	.L246:
+ 1102 0690 03F00F03 		and	r3, r3, #15
+ 1103              	.L247:
+ 1104 0694 D840     		lsrs	r0, r0, r3
+ 1105 0696 10BD     		pop	{r4, pc}
+ 1106              	.L232:
+ 1107 0698 0020     		movs	r0, #0
+ 1108 069a FFF75FFF 		bl	CMU_LFClkGet
+ 1109 069e 0F4B     		ldr	r3, .L252
+ 1110 06a0 9B6E     		ldr	r3, [r3, #104]
+ 1111 06a2 03F0F003 		and	r3, r3, #240
+ 1112 06a6 1B09     		lsrs	r3, r3, #4
+ 1113 06a8 F4E7     		b	.L247
+ 1114              	.L231:
+ 1115 06aa 0020     		movs	r0, #0
+ 1116 06ac 00E0     		b	.L244
+ 1117              	.L226:
+ 1118 06ae 0120     		movs	r0, #1
+ 1119              	.L244:
+ 1120 06b0 BDE81040 		pop	{r4, lr}
+ 1121 06b4 52E7     		b	CMU_LFClkGet
+ 1122              	.L230:
+ 1123 06b6 0120     		movs	r0, #1
+ 1124 06b8 FFF750FF 		bl	CMU_LFClkGet
+ 1125 06bc 074B     		ldr	r3, .L252
+ 1126 06be 1B6F     		ldr	r3, [r3, #112]
+ 1127 06c0 03F00303 		and	r3, r3, #3
+ 1128 06c4 E6E7     		b	.L247
+ 1129              	.L251:
+ 1130 06c6 0120     		movs	r0, #1
+ 1131 06c8 FFF748FF 		bl	CMU_LFClkGet
+ 1132 06cc 034B     		ldr	r3, .L252
+ 1133 06ce 1B6F     		ldr	r3, [r3, #112]
+ 1134 06d0 03F03003 		and	r3, r3, #48
+ 1135 06d4 1B09     		lsrs	r3, r3, #4
+ 1136 06d6 D840     		lsrs	r0, r0, r3
+ 1137 06d8 10BD     		pop	{r4, pc}
+ 1138              	.L253:
+ 1139 06da 00BF     		.align	2
+ 1140              	.L252:
+ 1141 06dc 00800C40 		.word	1074561024
+ 1143              		.section	.rodata
+ 1144              		.align	2
+ 1145              		.set	.LANCHOR0,. + 0
+ 1148              	CSWTCH.38:
+ 1149 0000 03       		.byte	3
+ 1150 0001 02       		.byte	2
+ 1151 0002 06       		.byte	6
+ 1152 0003 00       		.space	1
+ 1155              	CSWTCH.41:
+ 1156 0004 03       		.byte	3
+ 1157 0005 02       		.byte	2
+ 1158 0006 06       		.byte	6
+ 1159 0007 00       		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
+DEFINED SYMBOLS
+                            *ABS*:00000000 efm32_cmu.c
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:15     .text:00000000 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:19     .text:00000000 BITBAND_Peripheral
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:33     .text:0000000e CMU_FlashWaitStateControl
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:69     .text:00000044 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:72     .text:0000004c $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:76     .text:0000004c CMU_Sync
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:94     .text:00000060 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:96     .text:00000064 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:101    .text:00000064 CMU_Calibrate
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:109    .text:0000006c $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:149    .text:000000a4 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:151    .text:000000a8 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:156    .text:000000a8 CMU_ClockDivGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:167    .text:000000b8 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:171    .text:000000bc $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:222    .text:00000114 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:224    .text:00000118 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:229    .text:00000118 CMU_ClockEnable
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:242    .text:0000012e $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:248    .text:00000134 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:281    .text:00000160 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:288    .text:00000178 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:293    .text:00000178 CMU_ClockSelectGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:352    .text:000001e4 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:355    .text:000001ec $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:360    .text:000001ec CMU_FreezeEnable
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:380    .text:00000204 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:382    .text:00000208 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:387    .text:00000208 CMU_HFRCOBandGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:399    .text:00000214 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:401    .text:00000218 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:406    .text:00000218 CMU_HFRCOStartupDelayGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:418    .text:00000224 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:420    .text:00000228 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:425    .text:00000228 CMU_HFRCOStartupDelaySet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:439    .text:0000023c $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:441    .text:00000240 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:446    .text:00000240 CMU_LCDClkFDIVGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:458    .text:00000244 CMU_LCDClkFDIVSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:469    .text:00000246 CMU_OscillatorTuningGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:499    .text:00000274 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:501    .text:00000278 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:506    .text:00000278 CMU_OscillatorTuningSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:543    .text:000002bc $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:545    .text:000002c0 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:550    .text:000002c0 CMU_PCNTClockExternalGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:583    .text:000002f4 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:585    .text:000002f8 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:590    .text:000002f8 CMU_PCNTClockExternalSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:602    .text:00000304 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:604    .text:00000308 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:609    .text:00000308 CMU_OscillatorEnable
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:617    .text:00000310 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:663    .text:00000354 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:665    .text:00000358 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:670    .text:00000358 CMU_HFRCOBandSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:679    .text:00000364 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:685    .text:0000036a $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:743    .text:000003d8 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:747    .text:000003e4 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:752    .text:000003e4 CMU_ClockSelectSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:769    .text:00000400 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:773    .text:00000404 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:811    .text:0000044c $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:817    .text:00000452 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:855    .text:00000494 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:859    .text:000004a0 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:864    .text:000004a0 CMU_ClockDivSet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:876    .text:000004b4 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:880    .text:000004b8 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:952    .text:00000554 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:955    .text:0000055c $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:959    .text:0000055c CMU_LFClkGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:989    .text:00000594 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:991    .text:00000598 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:996    .text:00000598 CMU_ClockFreqGet
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:1141   .text:000006dc $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:1144   .rodata:00000000 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:1148   .rodata:00000000 CSWTCH.38
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:1155   .rodata:00000004 CSWTCH.41
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:114    .text:00000071 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:114    .text:00000072 $t
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:622    .text:00000315 $d
+C:\Users\matthias\AppData\Local\Temp\cchaNet6.s:622    .text:00000316 $t
+
+UNDEFINED SYMBOLS
+EMU_UpdateOscConfig
+SystemCoreClockGet
+SystemLFRCOClockGet
+SystemLFXOClockGet
+SystemHFClockGet
